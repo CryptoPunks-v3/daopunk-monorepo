@@ -29,8 +29,18 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
   .addOptionalParam('timelockDelay', 'The timelock delay (seconds)')
   .addOptionalParam('votingPeriod', 'The voting period (blocks)')
   .addOptionalParam('votingDelay', 'The voting delay (blocks)')
-  .addOptionalParam('proposalThresholdBps', 'The proposal threshold (basis points)')
-  .addOptionalParam('quorumVotesBps', 'Votes required for quorum (basis points)')
+  .addOptionalParam(
+    'proposalThresholdBps',
+    'The proposal threshold (basis points)',
+    100 /* 1% */,
+    types.int,
+  )
+  .addOptionalParam(
+    'quorumVotesBps',
+    'Votes required for quorum (basis points)',
+    1_000 /* 10% */,
+    types.int,
+  )
   .setAction(async (args, { ethers, run }) => {
     const [deployer] = await ethers.getSigners();
     const initialDeployerBalance = await ethers.provider.getBalance(deployer.address);
@@ -53,7 +63,7 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     await run('populate-seeder', { nSeeder: contracts.NSeeder.instance, probDoc });
 
     // Register OG punk hashes to make sure they will not be minted.
-    await run('register-og-punks', { nToken: contracts.NToken.instance });
+    // await run('register-og-punks', { nToken: contracts.NToken.instance });
 
     // Transfer ownership of all contract except for the auction house.
     // We must maintain ownership of the auction house to kick off the first auction.

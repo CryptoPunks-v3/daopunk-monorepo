@@ -103,4 +103,5 @@ yarn hardhat generate-metadata --network localhost
 
 ```shell
 yarn hardhat deploy-and-configure --network goerli --start-auction --auto-deploy --auction-duration 1200
+yarn hardhat deploy-and-configure --network goerli --start-auction --auto-deploy --proposal-threshold-bps 1 --quorum-votes-bps 200
 ```

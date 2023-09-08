@@ -28,9 +28,6 @@ contract NArt is IArt {
     /// @notice Current inflator address
     IInflator public override inflator;
 
-    /// @notice Noun Backgrounds (Hex Colors)
-//    string[] public override backgrounds;
-
     /// @notice Punk Color Palettes (Index => Hex Colors, stored as a contract using SSTORE2)
     mapping(uint8 => address) public palettesPointers;
 
@@ -146,28 +143,6 @@ contract NArt is IArt {
     function getCheeksesTrait() external view override returns (Trait memory) {
         return cheeksesTrait;
     }
-
-    /**
-     * @notice Batch add Noun backgrounds.
-     * @dev This function can only be called by the descriptor.
-     */
-    // function addManyBackgrounds(string[] calldata _backgrounds) external override onlyDescriptor {
-    //     for (uint256 i = 0; i < _backgrounds.length; i++) {
-    //         _addBackground(_backgrounds[i]);
-    //     }
-
-    //     emit BackgroundsAdded(_backgrounds.length);
-    // }
-
-    // /**
-    //  * @notice Add a Noun background.
-    //  * @dev This function can only be called by the descriptor.
-    //  */
-    // function addBackground(string calldata _background) external override onlyDescriptor {
-    //     _addBackground(_background);
-
-    //     emit BackgroundsAdded(1);
-    // }
 
     /**
      * @notice Update a single color palette. This function can be used to

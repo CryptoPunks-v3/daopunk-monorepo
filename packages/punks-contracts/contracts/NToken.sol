@@ -64,7 +64,7 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     uint256 private _currentPunkId = 10_000;
 
     // IPFS content hash of contract-level metadata
-    string private _contractURIHash = 'Qmbp5hCaFT8LqeL6TAXGnUzjYL2u9wkKXeUqump3pb4ruz';
+    string private _contractURIHash = 'QmPt2gDMrsLZeRQ96ohxW121VecFwhC44jmimXAy9wKon5';
 
     // Token name, a parent contract already declares _name
     string private __name;
@@ -138,7 +138,7 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
         minter = _minter;
         descriptor = _descriptor;
         seeder = _seeder;
-        __name = 'PUNKS';
+        __name = 'DAO Punks';
         __symbol = '\u03FE';
     }
 

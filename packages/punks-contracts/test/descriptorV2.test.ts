@@ -93,8 +93,8 @@ describe('NDescriptorV2', () => {
         'ascii',
       ),
     );
-    expect(name).to.equal('Punk 0');
-    expect(description).to.equal('Punk 0 is a member of the Punks DAO');
+    expect(name).to.equal('DAO Punk 0');
+    expect(description).to.equal('DAO Punk 0 is a member of the Punkers DAO');
     expect(image).to.not.be.undefined;
   }).timeout(1_000_000);
 
@@ -126,8 +126,8 @@ describe('NDescriptorV2', () => {
           'ascii',
         ),
       );
-      expect(name).to.equal(`Noun ${i}`);
-      expect(description).to.equal(`Noun ${i} is a member of the Nouns DAO`);
+      expect(name).to.equal(`DAO Punk ${i}`);
+      expect(description).to.equal(`DAO Punk ${i} is a member of the Punkers DAO`);
       expect(image).to.not.be.undefined;
 
       appendFileSync(

@@ -52,7 +52,7 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
   .addOptionalParam(
     'auctionDuration',
     'The auction duration (seconds)',
-    10 /* 24 hours */, /* DEBUG */
+    24 * 60 * 60 /* 24 hours */, /* DEBUG */
     types.int,
   )
   .addOptionalParam(

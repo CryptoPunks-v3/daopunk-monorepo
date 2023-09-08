@@ -114,7 +114,7 @@ describe('NToken', () => {
   });
 
   it('should set name', async () => {
-    expect(await nounsToken.name()).to.eq('PUNKS');
+    expect(await nounsToken.name()).to.eq('DAO Punks');
   });
 
   it('should allow minter to mint a noun to itself', async () => {
@@ -228,7 +228,7 @@ describe('NToken', () => {
   describe('contractURI', async () => {
     it('should return correct contractURI', async () => {
       expect(await nounsToken.contractURI()).to.eq(
-        'ipfs://Qmbp5hCaFT8LqeL6TAXGnUzjYL2u9wkKXeUqump3pb4ruz',
+        'ipfs://QmPt2gDMrsLZeRQ96ohxW121VecFwhC44jmimXAy9wKon5',
       );
     });
     it('should allow owner to set contractURI', async () => {
@@ -245,7 +245,7 @@ describe('NToken', () => {
 
   describe('metadata', async () => {
     it('should get default name', async () => {
-      expect(await nounsToken.name()).to.eq('PUNKS');
+      expect(await nounsToken.name()).to.eq('DAO Punks');
     });
     it('should get default symbol', async () => {
       expect(await nounsToken.symbol()).to.eq('Ͼ');
@@ -274,11 +274,11 @@ describe('NToken', () => {
         .to.emit(nounsToken, 'MetadataUpdated')
         .withArgs('PUNKS-2', 'Ͼ');
     });
-    it('a name change emits the event', async () => {
+    it('a symbol change emits the event', async () => {
       const tx = nounsToken.setSymbol('Ͼ-2');
       await expect(tx)
         .to.emit(nounsToken, 'MetadataUpdated')
-        .withArgs('PUNKS', 'Ͼ-2');
+        .withArgs('DAO Punks', 'Ͼ-2');
     });
     it('the owner cannot change the name when locked', async () => {
       await nounsToken.lockMetadata();

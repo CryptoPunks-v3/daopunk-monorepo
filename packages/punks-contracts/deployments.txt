@@ -1,3 +1,23 @@
+Goerli 07.09.2023
+
+┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐
+│         (index)         │                   Address                    │                           Deployment Hash                            │
+├─────────────────────────┼──────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│     NFTDescriptorV2     │ '0x1CcBC54eE0BF7694215F52e500fd0d5d0440cBAf' │ '0x7bfc29914b95ff66f341c2aca177bc3999eb116c0a66d094c87a75a66b6b4580' │
+│       SVGRenderer       │ '0x44A6F52125cFfe095A5511A562B013825e78c0c0' │ '0xd65b749fde1d12857bacb39ced4e3dc49f426d6773f4c188b54c419db1213081' │
+│      NDescriptorV2      │ '0xBdE513D85b724C63eFD8ad77c65400A85B7B0B72' │ '0xe5205c2775d39d06b7e7f8d353c06ada45dcea2a56fb95a3300a33e4f4a052ef' │
+│        Inflator         │ '0x1658C5851b3E0a142b55439d52Fa2709Bc785E8C' │ '0x966763ce418beaf7c36da5db6b0b3da4d81c7b00312190b911235ab084668c27' │
+│          NArt           │ '0x4deccF8C5A594C00cd1a9FFbb1AD7d58aDDaf5E6' │ '0xe980af6ee825ebb038c8c9529d98b402a3495bc855b6e00dd13856fb9b492774' │
+│         NSeeder         │ '0x886bDE2A92d733B7F239711237f518D12C438461' │ '0xd349cfbcbbfe7fa78395b4c6ffb807baf632cf3042affa3047fa03fc2a7ac41e' │
+│         NToken          │ '0xa5bfbd19565237C54d22Cf6519a02D56bDC6846a' │ '0xae2fd6188ea325267540c43a2609178029670245404e123c56e7f295549042b0' │
+│      NAuctionHouse      │ '0x42f3Db2f424B49E1c975245DEdd9F3A73a5710a4' │ '0x2316272f79bb84cbcb33e17d63bcd69ba5c2a03097b159a4f0f111515442baf8' │
+│ NAuctionHouseProxyAdmin │ '0x672415CaE142E1365317e038d55dfF27B3209e0C' │ '0xd068d2f982441ce90f64fa1a53b4c4b6851a2b9d4badb718afaaaf1f9123ab49' │
+│   NAuctionHouseProxy    │ '0x69eC75a3648D53595f2a24e1270d9208Ea5850E2' │ '0x388fa627431cd7a7755ef5910f6023a5a3dc2f4e27607188e65e6b8040544b4f' │
+│      NDAOExecutor       │ '0x4051AC93c4D507Bc39330eB8821504d1dD310439' │ '0xa9abcafe8968edaf755d3f89e1cd0b6378bb752e5535671bb782f4b8fdc9d1c2' │
+│       NDAOLogicV1       │ '0x59414A6e7e4C1721154f1d7EdbADA56d702Dc6D9' │ '0xd48406f02e403dee6359a56e1bf90b5b9624c11eb401c3cf6f3f9d541591f0e3' │
+│        NDAOProxy        │ '0xd669A9d550BCc9CE569a3D05CC6C2bed37A46EFE' │ '0x9f326bb799152d4f355bfe0558335aad0592d7b5123114d2ad44bac21f658b03' │
+└─────────────────────────┴──────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────┘
+
 Goerli 29.06.2023 just to update governance tresholds
 
 ┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐

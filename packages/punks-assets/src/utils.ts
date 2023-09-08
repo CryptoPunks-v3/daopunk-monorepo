@@ -1,7 +1,7 @@
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ISeed, PunkData } from './types';
-import { images/*, bgcolors*/ } from './image-data.json';
+import { images } from './image-data.json';
 import probDoc from './config/probability.json'
 
 const probs: any = probDoc
