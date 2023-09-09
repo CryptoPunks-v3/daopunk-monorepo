@@ -136,7 +136,7 @@ const Documentation = () => {
               <Trans>
                 Punkers DAO utilizes a fork of Compound Governance and is the main governing body of
                 the DAO Punks ecosystem. The Punkers DAO treasury receives 100% of ETH proceeds from
-                daily Punks auctions. Each CryptoPunk and DAO Punk is an irrevocable member of the
+                daily DAO Punks auctions. Each CryptoPunk and DAO Punk is an irrevocable member of the
                 Punkers DAO and entitled to one vote in all governance matters. CryptoPunk and DAO Punk 
                 vote are non-transferable (if you sell your CryptoPunk or DAO Punk the vote goes with it) but delegatable,
                 which means you can assign your vote to someone else as long as you own your CryptoPunks or DAO Punk.
@@ -169,7 +169,7 @@ const Documentation = () => {
             <Accordion.Body>
               <p>
                 <Trans>
-                  Punks are generated randomly based on Ethereum block hashes. Scarcity for type,
+                  DAO Punks are generated randomly based on Ethereum block hashes. Scarcity for type,
                   skin tone, individual attributes, and number of attributes is the same as the original collection.
                 </Trans>
               </p>
@@ -246,7 +246,7 @@ const Documentation = () => {
           </Accordion.Item>
           <Accordion.Item eventKey="6" className={classes.accordionItem}>
             <Accordion.Header className={classes.accordionHeader}>
-              <Trans>Punk Seeder Contract</Trans>
+              <Trans>DAO Punk Seeder Contract</Trans>
             </Accordion.Header>
             <Accordion.Body>
               <p>

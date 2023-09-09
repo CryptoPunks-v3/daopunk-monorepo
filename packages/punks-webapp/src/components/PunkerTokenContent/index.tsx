@@ -38,7 +38,7 @@ const PunkerTokenContent: React.FC<{
 
   const isCool = useAppSelector(state => state.application.isCoolBackground);
 
-  // Page through Punks via keyboard
+  // Page through DAO Punks via keyboard
   // handle what happens on key press
   const handleKeyPress = useCallback(
     event => {
@@ -110,7 +110,7 @@ const PunkerTokenContent: React.FC<{
               .{' '}
               <Trans>
                 For this reason, we, the project's founders (‘Punkers’) have chosen to compensate
-                ourselves with Punks. Every 10th Punk for the first 5 years of the project will be
+                ourselves with DAO Punks. Every 10th DAO Punk for the first 5 years of the project will be
                 sent to our multisig (5/10), where it will be vested and distributed to individual
                 Punkers.
               </Trans>
