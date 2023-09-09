@@ -164,7 +164,7 @@ const Documentation = () => {
           </Accordion.Item>
           <Accordion.Item eventKey="4" className={classes.accordionItem}>
             <Accordion.Header className={classes.accordionHeader}>
-              <Trans>Punks Traits</Trans>
+              <Trans>DAO Punks Traits</Trans>
             </Accordion.Header>
             <Accordion.Body>
               <p>
