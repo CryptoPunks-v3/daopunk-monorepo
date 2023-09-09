@@ -6,7 +6,7 @@ import { Trans } from '@lingui/macro';
 const BidHistoryBtn: React.FC<{ onClick: () => void }> = props => {
   const { onClick } = props;
 
-  const isCool = useAppSelector(state => state.application.stateBackgroundColor) === '#d5d7e1';
+  const isCool = useAppSelector(state => state.application.stateBackgroundColor) === '#e1d7d5';
 
   return (
     <div
