@@ -8,18 +8,18 @@ import { Trans } from '@lingui/macro';
 const Banner = () => {
   return (
     <Section fullWidth={false} className={classes.bannerSection}>
-      <Col lg={7}>
+      <Col lg={6}>
         <div className={classes.wrapper}>
           <h1>
             <Trans>ONE DAO PUNK,</Trans>
             <br />
-            <Trans>EVERY DAY,</Trans>
+            <Trans>EVERYDAY,</Trans>
             <br />
             <Trans>FOREVER.</Trans>
           </h1>
         </div>
       </Col>
-      <Col lg={5}>
+      <Col lg={6}>
         <div style={{ padding: '2rem' }}>
           <Punk imgPath={punk} alt="DAO Punk" />
         </div>
