@@ -44,14 +44,14 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     }
   }, [lastAuctionTokenId, dispatch, initialAuctionId, onDisplayAuction]);
 
+  const isNotLastPunk =
+    onDisplayAuctionTokenId !== undefined && onDisplayAuctionTokenId !== lastAuctionTokenId;
+
   return (
     <>
       <Auction auction={onDisplayAuction} />
-      {onDisplayAuctionTokenId !== undefined && onDisplayAuctionTokenId !== lastAuctionTokenId ? (
-        <ProfileActivityFeed tokenId={onDisplayAuctionTokenId} />
-      ) : (
-        <Banner />
-      )}
+      {isNotLastPunk && <ProfileActivityFeed tokenId={onDisplayAuctionTokenId} />}
+      <Banner subtitle={isNotLastPunk} />
       <Documentation />
     </>
   );
