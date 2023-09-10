@@ -12,7 +12,7 @@
   color: var(--brand-black);
 }
 .noundersPage a:hover {
-  color: var(--brand-pink);
+  color: var(--brand-color);
 }
 
 .bioGroup {
@@ -37,7 +37,7 @@
   text-align: center;
 }
 .bioGroup a:hover svg {
-  fill: var(--brand-pink);
+  fill: var(--brand-color);
 }
 .bioGroup img {
   margin-bottom: 1rem;
