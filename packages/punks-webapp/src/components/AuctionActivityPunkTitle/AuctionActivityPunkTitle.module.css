@@ -4,12 +4,6 @@
 
 .wrapper h1 {
   font-family: 'Montserrat Bold', sans-serif;
-  font-size: 68px;
+  font-size: 54px;
   margin-bottom: 10px;
-}
-
-@media (max-width: 992px) {
-  .wrapper h1 {
-    font-size: 56px;
-  }
 }
