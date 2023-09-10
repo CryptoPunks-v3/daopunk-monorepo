@@ -16,7 +16,7 @@ interface ApplicationState {
 
 const initialState: ApplicationState = {
   stateBackgroundColor: beige,
-  isCoolBackground: true,
+  isCoolBackground: false,
   alertModal: {
     show: false,
   },
@@ -26,16 +26,12 @@ export const applicationSlice = createSlice({
   name: 'application',
   initialState,
   reducers: {
-    setStateBackgroundColor: (state, action: PayloadAction<string>) => {
-      state.stateBackgroundColor = action.payload;
-      state.isCoolBackground = action.payload === beige;
-    },
     setAlertModal: (state, action: PayloadAction<AlertModal>) => {
       state.alertModal = action.payload;
     },
   },
 });
 
-export const { setStateBackgroundColor, setAlertModal } = applicationSlice.actions;
+export const { setAlertModal } = applicationSlice.actions;
 
 export default applicationSlice.reducer;

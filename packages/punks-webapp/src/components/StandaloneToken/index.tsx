@@ -19,7 +19,6 @@ interface StandaloneCircularTokenProps {
 
 interface StandaloneTokenWithSeedProps {
   tokenId: EthersBN;
-  onLoadSeed?: (seed: ISeed) => void;
   shouldLinkToProfile: boolean;
 }
 
@@ -120,16 +119,14 @@ export const StandaloneTokenRoundedCorners: React.FC<StandaloneTokenProps> = (
 export const StandaloneTokenWithSeed: React.FC<StandaloneTokenWithSeedProps> = (
   props: StandaloneTokenWithSeedProps,
 ) => {
-  const { tokenId, onLoadSeed, shouldLinkToProfile } = props;
+  const { tokenId, shouldLinkToProfile } = props;
 
   const dispatch = useDispatch();
   const seed = useNSeed(tokenId);
   const seedIsInvalid = Object.values(seed || {}).every(v => v === 0);
 
-  console.log("StandaloneTokenWithSeed", seed)
-  if (!seed || seedIsInvalid || !tokenId || !onLoadSeed) return <Punk imgPath="" alt="DAO Punk" />;
-
-  onLoadSeed(seed);
+  console.log('StandaloneTokenWithSeed', seed);
+  if (!seed || seedIsInvalid || !tokenId) return <Punk imgPath="" alt="DAO Punk" />;
 
   const onClickHandler = () => {
     dispatch(setOnDisplayAuctionTokenId(tokenId.toNumber()));

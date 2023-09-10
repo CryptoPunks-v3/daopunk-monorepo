@@ -114,7 +114,7 @@
 }
 
 .whiteActive .icon {
-  color: #d63c5e;
+  color: var(--brand-pink);
 }
 
 .whiteActiveVoteSubmit {

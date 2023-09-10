@@ -3,11 +3,9 @@ import { Col } from 'react-bootstrap';
 import { StandaloneTokenWithSeed } from '../StandaloneToken';
 import AuctionActivity from '../AuctionActivity';
 import { Row, Container } from 'react-bootstrap';
-// import { setStateBackgroundColor } from '../../state/slices/application';
 import { LoadingPunk } from '../Punk';
 import { Auction as IAuction } from '../../wrappers/nAuction';
 import classes from './Auction.module.css';
-import { ISeed } from '../../wrappers/nToken';
 import PunkerTokenContent from '../PunkerTokenContent';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -16,7 +14,6 @@ import {
   setNextOnDisplayAuctionTokenId,
   setPrevOnDisplayAuctionTokenId,
 } from '../../state/slices/onDisplayAuction';
-// import { beige, grey } from '../../utils/nounBgColors';
 
 interface AuctionProps {
   auction?: IAuction;
@@ -30,10 +27,6 @@ const Auction: React.FC<AuctionProps> = props => {
   let stateBgColor = useAppSelector(state => state.application.stateBackgroundColor);
   const lastTokenId = useAppSelector(state => state.onDisplayAuction.lastAuctionTokenId);
 
-  const loadedNounHandler = (seed: ISeed) => {
-    // dispatch(setStateBackgroundColor(seed.background === 0 ? grey : beige));
-  };
-
   const prevAuctionHandler = () => {
     dispatch(setPrevOnDisplayAuctionTokenId());
     currentAuction && history.push(`/punk/${currentAuction.tokenId.toNumber() - 1}`);
@@ -46,11 +39,7 @@ const Auction: React.FC<AuctionProps> = props => {
 
   const nounContent = currentAuction && (
     <div className={classes.nounWrapper}>
-      <StandaloneTokenWithSeed
-        tokenId={currentAuction.tokenId}
-        onLoadSeed={loadedNounHandler}
-        shouldLinkToProfile={false}
-      />
+      <StandaloneTokenWithSeed tokenId={currentAuction.tokenId} shouldLinkToProfile={false} />
     </div>
   );
 
