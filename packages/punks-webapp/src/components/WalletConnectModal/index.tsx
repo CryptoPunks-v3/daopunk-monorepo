@@ -54,7 +54,7 @@ const WalletConnectModal: React.FC<{ onDismiss: () => void }> = props => {
       <WalletButton
         onClick={() => {
           const walletlink = new WalletLinkConnector({
-            appName: 'Punks',
+            appName: 'DAO Punks',
             appLogoUrl: '../../assets/P.png',
             url: config.app.jsonRpcUri,
             supportedChainIds,
