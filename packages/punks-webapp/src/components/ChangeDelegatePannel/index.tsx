@@ -13,7 +13,7 @@ import { useCryptoPunksVote } from '../../wrappers/useCryptoPunkVote/hook';
 import { usePickByState } from '../../utils/pickByState';
 import { buildEtherscanTxLink } from '../../utils/etherscan';
 import { useActiveLocale } from '../../hooks/useActivateLocale';
-import pIcon from '../../assets/P.png';
+import shortLogo from '../../assets/logo-short.png';
 import { useOgPunks, OgPunk } from '../../wrappers/useOgPunks/hook';
 import { lowerCaseAddress, shortAddress } from '../../utils/addressAndENSDisplayUtils';
 import BrandSpinner from '../BrandSpinner';
@@ -305,7 +305,7 @@ const ChangeDelegatePannel: React.FC<ChangeDelegatePannelProps> = props => {
             <div className={classes.headingWrapper}>
               <div className={classes.avatarWrapper}>
                 <div className={classes.avatar}>
-                  <img src={pIcon} alt="DAO Punks" />
+                  <img src={shortLogo} alt="DAO Punks" />
                 </div>
               </div>
               <div className={classes.headingText}>
