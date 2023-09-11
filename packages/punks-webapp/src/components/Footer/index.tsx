@@ -21,6 +21,9 @@ const Footer = () => {
           <Link text={<Trans>Etherscan</Trans>} url={etherscanURL} leavesPage={true} />
           {/*<Link text={<Trans>Forums</Trans>} url={discourseURL} leavesPage={false} />*/}
         </footer>
+        <div className={classes.footerDisclaimer}>
+          <span>DAO Punks is not affiliated with Yuga Labs</span>
+        </div>
       </Container>
     </div>
   );
