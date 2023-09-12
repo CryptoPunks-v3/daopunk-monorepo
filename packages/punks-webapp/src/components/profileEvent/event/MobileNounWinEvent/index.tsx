@@ -25,31 +25,15 @@ const MobileNounWinEvent: React.FC<MobileTokenWinEventProps> = props => {
         </div>
       }
       primaryContent={
-        <>
-          {isNounderNoun ? (
-            <Trans>
-              <span className={classes.bold}>DAO Punk {event.tokenId} </span> sent to{' '}
-              <span className={classes.bold}>
-                {' '}
-                <ShortAddress address={event.winner} />
-              </span>{' '}
-            </Trans>
-          ) : (
-            <Trans>
-              <span className={classes.bold}>DAO Punk {event.tokenId} </span> won by{' '}
-              <span className={classes.bold}>
-                {' '}
-                <ShortAddress address={event.winner} />
-              </span>{' '}
-            </Trans>
-          )}
-        </>
+        <div>
+          <span className={classes.bold}>DAO Punk {event.tokenId}</span>
+          {isNounderNoun ? ' sent to ' : ' won by '}
+          <span className={classes.bold}>
+            <ShortAddress address={event.winner} />
+          </span>
+        </div>
       }
-      secondaryContent={
-        <>
-          <TransactionHashPill transactionHash={event.transactionHash} />
-        </>
-      }
+      secondaryContent={<TransactionHashPill transactionHash={event.transactionHash} />}
     />
   );
 };
