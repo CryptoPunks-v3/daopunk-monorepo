@@ -6,7 +6,6 @@ import MobileNounActivityRow from '../../activityRow/MobileNounActivityRow';
 import { CakeIcon } from '@heroicons/react/solid';
 import ShortAddress from '../../../ShortAddress';
 import TransactionHashPill from '../../eventData/infoPills/TransactionHashPill';
-import { Trans } from '@lingui/macro';
 
 interface MobileTokenWinEventProps {
   event: TokenWinEvent;
