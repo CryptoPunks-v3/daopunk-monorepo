@@ -294,7 +294,8 @@ const Documentation = () => {
                   <Link 
                     text="@FR3UD_" 
                     url="https://twitter.com/FR3UD_" 
-                    leavesPage={true} />
+                    leavesPage={true} 
+                  />
                 </li>
               </ul>
               <p>
