@@ -159,13 +159,12 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
 
     /**
      * @notice Mint a Punk to the minter, along with a possible Punkers reward
-     * Punks. Punkers reward Punks are minted every 10 Punks, starting at 10000,
+     * Punks. Punkers reward Punks are minted every 10 Punks,
      * until 183 punkers Punks have been minted (5 years w/ 24 hour auctions).
      * @dev Call _mintTo with the to address(es).
      */
     function mint() public override onlyMinter returns (uint256) {
-        // punk ids start with 10000
-        if (_currentPunkId <= 11820 && _currentPunkId % 10 == 0) {
+        if (_currentPunkId <= 1820 && _currentPunkId % 10 == 0) {
             _mintTo(punkers, _currentPunkId++);
         }
         return _mintTo(minter, _currentPunkId++);
