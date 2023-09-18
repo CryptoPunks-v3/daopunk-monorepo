@@ -1,6 +1,10 @@
+import { ethers } from 'ethers';
 import { task, types } from 'hardhat/config';
 import ImageData from '../files/image-data-v2.json';
 import { dataToDescriptorInput } from './utils';
+
+const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
 
 task('populate-descriptor', 'Populates the descriptor with color palettes and Punk parts')
   .addOptionalParam(
@@ -16,7 +20,8 @@ task('populate-descriptor', 'Populates the descriptor with color palettes and Pu
     types.string,
   )
   .setAction(async ({ nftDescriptor, nDescriptor }, { ethers, network }) => {
-    const options = { gasLimit: network.name === 'hardhat' ? 30000000 : undefined };
+
+    const options = { gasLimit: network.name === 'hardhat' ? 30000000 : undefined, maxFeePerGas: MAX_FEE_PER_GAS, maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, };
 
     const descriptorFactory = await ethers.getContractFactory('NDescriptorV2', {
       libraries: {
@@ -46,111 +51,162 @@ task('populate-descriptor', 'Populates the descriptor with color palettes and Pu
     const gogglesesPage = dataToDescriptorInput(goggleses.map(({ data }) => data));
     const nosesPage = dataToDescriptorInput(noses.map(({ data }) => data));
 
-//    await descriptorContract.addManyBackgrounds(bgcolors);
-    await descriptorContract.setPalette(0, `0x00000000${palette.join('')}`);
+    let tx = await descriptorContract.setPalette(0, `0x00000000${palette.join('')}`, options);
+    console.log(`setPalette() tx hash ${tx.hash}`);
+    await tx.wait();
 
-    await descriptorContract.addPunkTypes(
+    tx = await descriptorContract.addPunkTypes(
       typesPage.encodedCompressed,
       typesPage.originalLength,
       typesPage.itemCount,
       options,
     );
-    await descriptorContract.addNecks(
+    console.log(`addPunkTypes() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addNecks(
       necksPage.encodedCompressed,
       necksPage.originalLength,
       necksPage.itemCount,
       options,
     );
-    await descriptorContract.addCheekses(
+    console.log(`addNecks() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addCheekses(
       cheeksesPage.encodedCompressed,
       cheeksesPage.originalLength,
       cheeksesPage.itemCount,
       options,
     );
-    await descriptorContract.addFaces(
+    console.log(`addCheekses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addFaces(
       facesPage.encodedCompressed,
       facesPage.originalLength,
       facesPage.itemCount,
       options,
     );
-    await descriptorContract.addBeards(
+    console.log(`addFaces() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addBeards(
       beardsPage.encodedCompressed,
       beardsPage.originalLength,
       beardsPage.itemCount,
       options,
     );
-    await descriptorContract.addMouths(
+    console.log(`addBeards() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addMouths(
       mouthsPage.encodedCompressed,
       mouthsPage.originalLength,
       mouthsPage.itemCount,
       options,
     );
-    await descriptorContract.addEarses(
+    console.log(`addMouths() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addEarses(
       earsesPage.encodedCompressed,
       earsesPage.originalLength,
       earsesPage.itemCount,
       options,
     );
-    await descriptorContract.addHats(
+    console.log(`addEarses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addHats(
       hatsPage.encodedCompressed,
       hatsPage.originalLength,
       hatsPage.itemCount,
       options,
     );
-    await descriptorContract.addHelmets(
+    console.log(`addHats() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addHelmets(
       helmetsPage.encodedCompressed,
       helmetsPage.originalLength,
       helmetsPage.itemCount,
       options,
     );
-    await descriptorContract.addHairs(
+    console.log(`addHelmets() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addHairs(
       hairsPage.encodedCompressed,
       hairsPage.originalLength,
       hairsPage.itemCount,
       options,
     );
-    await descriptorContract.addTeeths(
+    console.log(`addHairs() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addTeeths(
       teethsPage.encodedCompressed,
       teethsPage.originalLength,
       teethsPage.itemCount,
       options,
     );
-    await descriptorContract.addLipses(
+    console.log(`addTeeths() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addLipses(
       lipsesPage.encodedCompressed,
       lipsesPage.originalLength,
       lipsesPage.itemCount,
       options,
     );
-    await descriptorContract.addEmotions(
+    console.log(`addLipses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addEmotions(
       emotionsPage.encodedCompressed,
       emotionsPage.originalLength,
       emotionsPage.itemCount,
       options,
     );
-    await descriptorContract.addEyeses(
+    console.log(`addEmotions() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addEyeses(
       eyesesPage.encodedCompressed,
       eyesesPage.originalLength,
       eyesesPage.itemCount,
       options,
     );
-    await descriptorContract.addGlasseses(
+    console.log(`addEyeses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addGlasseses(
       glassesesPage.encodedCompressed,
       glassesesPage.originalLength,
       glassesesPage.itemCount,
       options,
     );
-    await descriptorContract.addGoggleses(
+    console.log(`addGlasseses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addGoggleses(
       gogglesesPage.encodedCompressed,
       gogglesesPage.originalLength,
       gogglesesPage.itemCount,
       options,
     );
-    await descriptorContract.addNoses(
+    console.log(`addGoggleses() tx hash ${tx.hash}`);
+    await tx.wait();
+
+    tx = await descriptorContract.addNoses(
       nosesPage.encodedCompressed,
       nosesPage.originalLength,
       nosesPage.itemCount,
       options,
     );
+    console.log(`addNoses() tx hash ${tx.hash}`);
+    await tx.wait();
 
     
 

@@ -1,16 +1,16 @@
 {
   "network": "goerli",
   "nToken": {
-    "address": "0xa5bfbd19565237C54d22Cf6519a02D56bDC6846a",
-    "startBlock": 9654632
+    "address": "0x0Fa9939b3C4D73AdC288b19750Fb9f68130A21a0",
+    "startBlock": 9718483
   },
   "nAuctionHouse": {
-    "address": "0x69eC75a3648D53595f2a24e1270d9208Ea5850E2",
-    "startBlock": 9654635
+    "address": "0x643AAb353b5f9a9519C847599C1b3928debd48df",
+    "startBlock": 9718487
   },
   "nDAO": {
-    "address": "0xd669A9d550BCc9CE569a3D05CC6C2bed37A46EFE",
-    "startBlock": 9654639
+    "address": "0x65A005be3B639F58dC02cDE8deC5C0A71f15822F",
+    "startBlock": 9718490
   },
   "cryptopunksVote": {
     "address": "0x5CC68fCb6B18eb05d7008330191494e9ecAd948F",

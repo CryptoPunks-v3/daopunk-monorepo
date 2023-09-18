@@ -1,6 +1,10 @@
+import { ethers } from 'ethers';
 import { task, types } from 'hardhat/config';
 import { printContractsTable } from './utils';
 import probDoc from '../../punks-assets/src/config/probability.json'
+
+const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
 
 task('deploy-and-configure', 'Deploy and configure all contracts')
   .addFlag('startAuction', 'Start the first auction upon deployment completion')
@@ -42,6 +46,9 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     types.int,
   )
   .setAction(async (args, { ethers, run }) => {
+
+    const options = { maxFeePerGas: MAX_FEE_PER_GAS, maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, }
+
     const [deployer] = await ethers.getSigners();
     const initialDeployerBalance = await ethers.provider.getBalance(deployer.address);
 
@@ -74,10 +81,10 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
       args.punkers = deployer.address;
     }
     const executorAddress = contracts.NDAOExecutor.address;
-    await contracts.NDescriptorV2.instance.transferOwnership(args.punkers);
-    await contracts.NToken.instance.transferOwnership(args.punkers);
-    await contracts.NSeeder.instance.transferOwnership(args.punkers);
-    await contracts.NAuctionHouseProxyAdmin.instance.transferOwnership(args.punkers);
+    await (await contracts.NDescriptorV2.instance.transferOwnership(args.punkers, options)).wait();
+    await (await contracts.NToken.instance.transferOwnership(args.punkers, options)).wait();
+    await (await contracts.NSeeder.instance.transferOwnership(args.punkers, options)).wait();
+    await (await contracts.NAuctionHouseProxyAdmin.instance.transferOwnership(args.punkers, options)).wait();
     console.log(
       'Transferred ownership of the descriptor, token, and proxy admin contracts to the executor.',
     );
@@ -88,10 +95,13 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
       const auctionHouse = contracts.NAuctionHouse.instance.attach(
         contracts.NAuctionHouseProxy.address,
       );
-      await auctionHouse.unpause({
+      const tx = await auctionHouse.unpause({
         gasLimit: 5_000_000,
+        maxFeePerGas: MAX_FEE_PER_GAS,
+        maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
       });
-      await auctionHouse.transferOwnership(args.punkers);
+      await tx.wait();
+      await (await auctionHouse.transferOwnership(args.punkers, options)).wait();
       console.log(
         'Started the first auction and transferred ownership of the auction house to the executor.',
       );

@@ -84,16 +84,16 @@ describe('NToken', () => {
 
     const [, , , noundersNounCreated, , , , ownersNounCreated] = receipt.events || [];
 
-    expect(await nounsToken.ownerOf(10_000)).to.eq(punkers.address);
+    expect(await nounsToken.ownerOf(0)).to.eq(punkers.address);
     expect(noundersNounCreated?.event).to.eq('PunkCreated');
-    expect(noundersNounCreated?.args?.tokenId).to.eq(10_000);
+    expect(noundersNounCreated?.args?.tokenId).to.eq(0);
     expect(noundersNounCreated?.args?.seed.length).to.equal(3);
     expect(noundersNounCreated?.args?.seed.punkType).to.be.a('number');
     expect(noundersNounCreated?.args?.seed.skinTone).to.be.a('number');
 
-    expect(await nounsToken.ownerOf(10_001)).to.eq(deployer.address);
+    expect(await nounsToken.ownerOf(1)).to.eq(deployer.address);
     expect(ownersNounCreated?.event).to.eq('PunkCreated');
-    expect(ownersNounCreated?.args?.tokenId).to.eq(10_001);
+    expect(ownersNounCreated?.args?.tokenId).to.eq(1);
     expect(ownersNounCreated?.args?.seed.length).to.equal(3);
     expect(ownersNounCreated?.args?.seed.punkType).to.be.a('number');
     expect(ownersNounCreated?.args?.seed.skinTone).to.be.a('number');
@@ -114,7 +114,7 @@ describe('NToken', () => {
   });
 
   it('should set name', async () => {
-    expect(await nounsToken.name()).to.eq('DAO Punks');
+    expect(await nounsToken.name()).to.eq('DAOpunks');
   });
 
   it('should allow minter to mint a noun to itself', async () => {
@@ -123,9 +123,9 @@ describe('NToken', () => {
     const receipt = await (await nounsToken.mint()).wait();
     const nounCreated = receipt.events?.[3];
 
-    expect(await nounsToken.ownerOf(10_002)).to.eq(deployer.address);
+    expect(await nounsToken.ownerOf(2)).to.eq(deployer.address);
     expect(nounCreated?.event).to.eq('PunkCreated');
-    expect(nounCreated?.args?.tokenId).to.eq(10_002);
+    expect(nounCreated?.args?.tokenId).to.eq(2);
     expect(nounCreated?.args?.seed.length).to.equal(3);
     expect(nounCreated?.args?.seed.punkType).to.be.a('number');
     expect(nounCreated?.args?.seed.skinTone).to.be.a('number');
@@ -148,22 +148,22 @@ describe('NToken', () => {
 
     await expect(tx)
       .to.emit(nounsToken, 'Transfer')
-      .withArgs(constants.AddressZero, creator.address, 10_002);
-    await expect(tx).to.emit(nounsToken, 'Transfer').withArgs(creator.address, minter.address, 10_002);
+      .withArgs(constants.AddressZero, creator.address, 2);
+    await expect(tx).to.emit(nounsToken, 'Transfer').withArgs(creator.address, minter.address, 2);
   });
 
   it('should allow minter to burn a noun', async () => {
     await (await nounsToken.mint()).wait();
 
-    const tx = nounsToken.burn(10_001);
-    await expect(tx).to.emit(nounsToken, 'PunkBurned').withArgs(10_001);
+    const tx = nounsToken.burn(1);
+    await expect(tx).to.emit(nounsToken, 'PunkBurned').withArgs(1);
   });
 
   it('should not allow minter to burn a noun not owned', async () => {
     await (await nounsToken.mint()).wait();
-    await (await nounsToken.transferFrom(deployer.address, punkers.address, 10_001)).wait();
+    await (await nounsToken.transferFrom(deployer.address, punkers.address, 1)).wait();
 
-    const tx = nounsToken.burn(10_001);
+    const tx = nounsToken.burn(1);
     await expect(tx).to.be.revertedWith('PunkToken: burn caller is not owner nor approved');
   });
 
@@ -228,7 +228,7 @@ describe('NToken', () => {
   describe('contractURI', async () => {
     it('should return correct contractURI', async () => {
       expect(await nounsToken.contractURI()).to.eq(
-        'ipfs://QmPt2gDMrsLZeRQ96ohxW121VecFwhC44jmimXAy9wKon5',
+        'ipfs://QmR7EEuVjtSENkJe54rsdpbBcnUMTnQQQ1fTrrYPEB3NYV',
       );
     });
     it('should allow owner to set contractURI', async () => {
@@ -245,7 +245,7 @@ describe('NToken', () => {
 
   describe('metadata', async () => {
     it('should get default name', async () => {
-      expect(await nounsToken.name()).to.eq('DAO Punks');
+      expect(await nounsToken.name()).to.eq('DAOpunks');
     });
     it('should get default symbol', async () => {
       expect(await nounsToken.symbol()).to.eq('Ͼ');
@@ -278,7 +278,7 @@ describe('NToken', () => {
       const tx = nounsToken.setSymbol('Ͼ-2');
       await expect(tx)
         .to.emit(nounsToken, 'MetadataUpdated')
-        .withArgs('DAO Punks', 'Ͼ-2');
+        .withArgs('DAOpunks', 'Ͼ-2');
     });
     it('the owner cannot change the name when locked', async () => {
       await nounsToken.lockMetadata();

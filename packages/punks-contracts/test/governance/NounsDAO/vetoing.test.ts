@@ -78,8 +78,8 @@ async function propose(proposer: SignerWithAddress, mint = true) {
   if (mint) {
     await setTotalSupply(token, 2);
     if (proposer.address !== deployer.address) {
-      await token.transferFrom(deployer.address, proposer.address, 10_000);
-      await token.transferFrom(deployer.address, proposer.address, 10_001);
+      await token.transferFrom(deployer.address, proposer.address, 0);
+      await token.transferFrom(deployer.address, proposer.address, 1);
     }
   }
   await mineBlock();
@@ -204,10 +204,10 @@ describe('NDAO#vetoing', () => {
     });
     it('Defeated', async () => {
       await setTotalSupply(token, 4);
-      await token.transferFrom(deployer.address, account0.address, 10_000);
-      await token.transferFrom(deployer.address, account0.address, 10_001);
-      await token.transferFrom(deployer.address, account1.address, 10_002);
-      await token.transferFrom(deployer.address, account1.address, 10_003);
+      await token.transferFrom(deployer.address, account0.address, 0);
+      await token.transferFrom(deployer.address, account0.address, 1);
+      await token.transferFrom(deployer.address, account1.address, 2);
+      await token.transferFrom(deployer.address, account1.address, 3);
       await propose(account0, false);
       await mineBlock();
       await mineBlock();
@@ -242,11 +242,11 @@ describe('NDAO#vetoing', () => {
 
       it('Succeeded', async () => {
         await setTotalSupply(token, 5);
-        await token.transferFrom(deployer.address, account0.address, 10_000);
-        await token.transferFrom(deployer.address, account0.address, 10_001);
-        await token.transferFrom(deployer.address, account1.address, 10_002);
-        await token.transferFrom(deployer.address, account1.address, 10_003);
-        await token.transferFrom(deployer.address, account1.address, 10_004);
+        await token.transferFrom(deployer.address, account0.address, 0);
+        await token.transferFrom(deployer.address, account0.address, 1);
+        await token.transferFrom(deployer.address, account1.address, 2);
+        await token.transferFrom(deployer.address, account1.address, 3);
+        await token.transferFrom(deployer.address, account1.address, 4);
         await propose(account0, false);
         await mineBlock();
         await mineBlock();

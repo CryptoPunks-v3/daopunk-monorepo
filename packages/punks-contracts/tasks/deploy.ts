@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { default as NAuctionHouseABI } from '../abi/contracts/NAuctionHouse.sol/NAuctionHouse.json';
 import { ChainId, ContractDeployment, ContractName, DeployedContract } from './types';
 import { Interface } from 'ethers/lib/utils';
@@ -25,6 +26,9 @@ const cryptopunksVoteContracts: Record<number, string> = {
 const N_ART_NONCE_OFFSET = 4;
 const AUCTION_HOUSE_PROXY_NONCE_OFFSET = 9;
 const GOVERNOR_N_DELEGATOR_NONCE_OFFSET = 12;
+
+const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
 
 task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
   .addFlag('autoDeploy', 'Deploy all contracts without user interaction')
@@ -230,26 +234,26 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
     };
 
     for (const [name, contract] of Object.entries(contracts)) {
-      let gasPrice = await ethers.provider.getGasPrice();
-      console.log("GAS_PRICE", gasPrice)
+      let maxFeePerGas = MAX_FEE_PER_GAS;
+      console.log("maxFeePerGas", maxFeePerGas)
       if (!args.autoDeploy) {
-        const gasInGwei = Math.round(Number(ethers.utils.formatUnits(gasPrice, 'gwei')));
+        const maxFeePerGasInGwei = Math.round(Number(ethers.utils.formatUnits(maxFeePerGas, 'gwei')));
 
         promptjs.start();
 
         const result = await promptjs.get([
           {
             properties: {
-              gasPrice: {
+              maxFeePerGas: {
                 type: 'integer',
                 required: true,
                 description: 'Enter a gas price (gwei)',
-                default: gasInGwei,
+                default: maxFeePerGasInGwei,
               },
             },
           },
         ]);
-        gasPrice = ethers.utils.parseUnits(result.gasPrice.toString(), 'gwei');
+        maxFeePerGas = ethers.utils.parseUnits(result.maxFeePerGas.toString(), 'gwei');
       }
       const factory = await ethers.getContractFactory(name, {
         libraries: contract?.libraries?.(),
@@ -259,11 +263,12 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
         factory.getDeployTransaction(
           ...(contract.args?.map(a => (typeof a === 'function' ? a() : a)) ?? []),
           {
-            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
           },
         ),
       );
-      const deploymentCost = deploymentGas.mul(gasPrice);
+      const deploymentCost = deploymentGas.mul(maxFeePerGas);
 
       console.log(
         `Estimated cost to deploy ${name}: ${ethers.utils.formatUnits(
@@ -298,9 +303,11 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
       const deployedContract = await factory.deploy(
         ...(contract.args?.map(a => (typeof a === 'function' ? a() : a)) ?? []),
         {
-          gasPrice,
+          maxFeePerGas,
+          maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
         },
       );
+      console.log(`transaction ${deployedContract.deployTransaction.hash}`)
 
       if (contract.waitForConfirmation) {
         await deployedContract.deployed();
