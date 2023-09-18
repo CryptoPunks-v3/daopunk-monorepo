@@ -44,7 +44,7 @@ const PunkInfoRowHolder: React.FC<PunkInfoRowHolderProps> = props => {
   } else if (error) {
     return (
       <div>
-        <Trans>Failed to fetch DAO Punk info</Trans>
+        <Trans>Failed to fetch DAOpunk info</Trans>
       </div>
     );
   }
@@ -77,7 +77,7 @@ const PunkInfoRowHolder: React.FC<PunkInfoRowHolderProps> = props => {
             rel="noreferrer"
           >
             {winner.toLowerCase() === config.addresses.nAuctionHouseProxy.toLowerCase() ? (
-              <Trans>DAO Punks Auction House</Trans>
+              <Trans>DAOpunks Auction House</Trans>
             ) : (
               shortAddressComponent
             )}

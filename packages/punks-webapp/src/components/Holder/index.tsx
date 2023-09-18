@@ -27,7 +27,7 @@ const Holder: React.FC<HolderProps> = props => {
   } else if (error) {
     return (
       <div>
-        <Trans>Failed to fetch DAO Punk info</Trans>
+        <Trans>Failed to fetch DAOpunk info</Trans>
       </div>
     );
   }

@@ -24,8 +24,8 @@ interface StandaloneTokenWithSeedProps {
 
 export const getPunk = (tokenId: string | EthersBN, seed: ISeed) => {
   const id = tokenId.toString();
-  const name = `DAO Punk ${id}`;
-  const description = `DAO Punk ${id} is a member of the Punkers DAO`;
+  const name = `DAOpunk ${id}`;
+  const description = `DAOpunk ${id} is a member of the Punkers DAO`;
   const { parts } = getPunkData(seed);
   console.log('TOKEN_ID', { seed }, { parts });
   const image = `data:image/svg+xml;base64,${btoa(buildSVG(parts, data.palette))}`;
@@ -54,7 +54,7 @@ const StandaloneToken: React.FC<StandaloneTokenProps> = (props: StandaloneTokenP
       className={classes.clickablePunk}
       onClick={onClickHandler}
     >
-      <Punk imgPath={punk ? punk.image : ''} alt={punk ? punk.description : 'DAO Punk'} />
+      <Punk imgPath={punk ? punk.image : ''} alt={punk ? punk.description : 'DAOpunk'} />
     </Link>
   );
 };
@@ -71,7 +71,7 @@ export const StandaloneTokenCircular: React.FC<StandaloneCircularTokenProps> = (
     dispatch(setOnDisplayAuctionTokenId(tokenId.toNumber()));
   };
 
-  if (!seed || !tokenId) return <Punk imgPath="" alt="DAO Punk" />;
+  if (!seed || !tokenId) return <Punk imgPath="" alt="DAOpunk" />;
 
   return (
     <Link
@@ -81,7 +81,7 @@ export const StandaloneTokenCircular: React.FC<StandaloneCircularTokenProps> = (
     >
       <Punk
         imgPath={punk ? punk.image : ''}
-        alt={punk ? punk.description : 'DAO Punk'}
+        alt={punk ? punk.description : 'DAOpunk'}
         wrapperClassName={punkClasses.circularTokenWrapper}
         className={border ? punkClasses.circleWithBorder : punkClasses.circular}
       />
@@ -109,7 +109,7 @@ export const StandaloneTokenRoundedCorners: React.FC<StandaloneTokenProps> = (
     >
       <Punk
         imgPath={punk ? punk.image : ''}
-        alt={punk ? punk.description : 'DAO Punk'}
+        alt={punk ? punk.description : 'DAOpunk'}
         className={punkClasses.rounded}
       />
     </Link>
@@ -126,7 +126,7 @@ export const StandaloneTokenWithSeed: React.FC<StandaloneTokenWithSeedProps> = (
   const seedIsInvalid = Object.values(seed || {}).every(v => v === 0);
 
   console.log('StandaloneTokenWithSeed', seed);
-  if (!seed || seedIsInvalid || !tokenId) return <Punk imgPath="" alt="DAO Punk" />;
+  if (!seed || seedIsInvalid || !tokenId) return <Punk imgPath="" alt="DAOpunk" />;
 
   const onClickHandler = () => {
     dispatch(setOnDisplayAuctionTokenId(tokenId.toNumber()));

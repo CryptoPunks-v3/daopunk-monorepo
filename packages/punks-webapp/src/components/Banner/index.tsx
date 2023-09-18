@@ -11,10 +11,10 @@ const Banner = ({ subtitle }: { subtitle: boolean }) => {
       <Col lg={7}>
         <div className={classes.wrapper}>
           {subtitle ? (
-            <h2>DAO Punks?</h2>
+            <h2>DAOpunks?</h2>
           ) : (
             <h1>
-              <Trans>ONE DAO PUNK,</Trans>
+              <Trans>ONE DAOPUNK,</Trans>
               <br />
               <Trans>EVERY DAY,</Trans>
               <br />
@@ -25,7 +25,7 @@ const Banner = ({ subtitle }: { subtitle: boolean }) => {
       </Col>
       {!subtitle && (
         <Col className="d-none d-lg-block" lg={5}>
-          <Punk imgPath={punk} alt="DAO Punk" />{' '}
+          <Punk imgPath={punk} alt="DAOpunk" />{' '}
         </Col>
       )}
     </Section>

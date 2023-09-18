@@ -57,11 +57,11 @@ const ByLineHoverCard: React.FC<ByLineHoverCardProps> = props => {
           <ScaleIcon height={15} width={15} className={classes.icon} />
           {sortedTokenIds.length === 1 ? (
             <Trans>
-              <span>Delegated DAO Punk: </span>
+              <span>Delegated DAOpunk: </span>
             </Trans>
           ) : (
             <Trans>
-              <span>Delegated DAO Punks: </span>
+              <span>Delegated DAOpunks: </span>
             </Trans>
           )}
 

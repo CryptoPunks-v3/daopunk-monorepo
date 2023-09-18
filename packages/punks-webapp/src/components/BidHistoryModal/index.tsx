@@ -40,7 +40,7 @@ const BidHistoryModalOverlay: React.FC<{
               <h2>
                 <Trans>Bids for</Trans>
               </h2>
-              <h1>DAO Punk {auction && auction.tokenId.toString()}</h1>
+              <h1>DAOpunk {auction && auction.tokenId.toString()}</h1>
             </div>
           </div>
           <div className={classes.bidWrapper}>

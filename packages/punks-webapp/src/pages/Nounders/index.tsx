@@ -146,7 +146,7 @@ const NoundersPage = () => {
         <p style={{ textAlign: 'justify' }}>
           <Trans>
             All Noun auction proceeds are sent to the Punkers DAO. For this reason, we, the project's
-            founders (‘Punkers’) have chosen to compensate ourselves with DAO Punks. Every 10th DAO Punk
+            founders (‘Punkers’) have chosen to compensate ourselves with DAOpunks. Every 10th DAOpunk
             for the first 5 years of the project will be sent to our multisig (2/3), where it will
             be vested and distributed to individual Punkers.
           </Trans>

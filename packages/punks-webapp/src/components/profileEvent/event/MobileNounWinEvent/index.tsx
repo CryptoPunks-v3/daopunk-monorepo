@@ -25,7 +25,7 @@ const MobileNounWinEvent: React.FC<MobileTokenWinEventProps> = props => {
       }
       primaryContent={
         <div>
-          <span className={classes.bold}>DAO Punk {event.tokenId}</span>
+          <span className={classes.bold}>DAOpunk {event.tokenId}</span>
           {isNounderNoun ? ' sent to ' : ' won by '}
           <span className={classes.bold}>
             <ShortAddress address={event.winner} />

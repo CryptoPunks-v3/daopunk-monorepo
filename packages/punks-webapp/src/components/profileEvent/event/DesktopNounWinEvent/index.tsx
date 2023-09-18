@@ -34,7 +34,7 @@ const DesktopNounWinEvent: React.FC<DesktopNounWinEventProps> = props => {
           />
           {
             <div>
-              <span className={classes.bold}>DAO Punk {event.tokenId}</span>
+              <span className={classes.bold}>DAOpunk {event.tokenId}</span>
               {isNounderNoun ? ' sent to ' : ' won by '}
               <span
                 data-tip={`View on Etherscan`}
