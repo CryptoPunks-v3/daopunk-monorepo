@@ -111,7 +111,7 @@ const PunkerTokenContent: React.FC<{
               <Trans>
                 For this reason, we, the project's founders (‘Punkers’) have chosen to compensate
                 ourselves with DAOpunks. Every 10th DAOpunk for the first 5 years of the project will be
-                sent to our multisig (5/10), where it will be vested and distributed to individual
+                sent to our multisig (2/3), where it will be vested and distributed to individual
                 Punkers.
               </Trans>
             </li>
