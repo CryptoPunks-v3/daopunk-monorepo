@@ -46,6 +46,10 @@ interface IToken is IERC721 {
 
     event MetadataLocked();
 
+    event IdShiftUpdated(uint256 newIdShift);
+
+    event IdShiftLocked();
+
     function mint() external returns (uint256);
 
     function burn(uint256 tokenId) external;
@@ -73,4 +77,8 @@ interface IToken is IERC721 {
     function setSymbol(string memory symbol_) external;
 
     function lockMetadata() external;
+
+    function setIdShift(uint256 newIdShift) external;
+
+    function lockIdShift() external;
 }

@@ -56,9 +56,12 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     // Whether the owner can change metadata
     bool public isMetadataLocked;
 
+    // Whether the owner can change metadata
+    bool public isIdShitLocked;
+
     // The punk seeds
     /// @notice The value is the seed hash actually
-    mapping(uint256 => bytes32) public seeds;
+    mapping(uint256 => bytes32) internal _seeds;
 
     // The internal punk ID tracker
     uint256 private _currentPunkId = 0;
@@ -113,6 +116,14 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     }
 
     /**
+     * @notice Require that metadata is not locked.
+     */
+    modifier whenIdShiftNotLocked() {
+        require(!isIdShitLocked, 'Id Shifting is locked');
+        _;
+    }
+
+    /**
      * @notice Require that the sender is the punkers.
      */
     modifier onlyPunkers() {
@@ -140,6 +151,10 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
         seeder = _seeder;
         __name = 'DAOpunks';
         __symbol = '\u03FE';
+    }
+
+    function seeds(uint256 punkId) external view returns (bytes32) {
+        return _seeds[punkId - _idShift];
     }
 
     /**
@@ -173,10 +188,12 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     /**
      * @notice Burn a punk.
      */
-    function burn(uint256 punkId) public override onlyMinter {
+    function burn(uint256 punkId) external override onlyMinter {
+        require(punkId >= _idShift, 'ERC721: operator query for nonexistent token');
+        uint256 unshiftedPunkId = punkId - _idShift;
         //solhint-disable-next-line max-line-length
-        require(_isApprovedOrOwner(_msgSender(), punkId), 'PunkToken: burn caller is not owner nor approved');
-        _burn(punkId);
+        require(_isApprovedOrOwner(_msgSender(), unshiftedPunkId), 'PunkToken: burn caller is not owner nor approved');
+        _burn(unshiftedPunkId);
         emit PunkBurned(punkId);
     }
 
@@ -184,18 +201,22 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
      * @notice A distinct Uniform Resource Identifier (URI) for a given asset.
      * @dev See {IERC721Metadata-tokenURI}.
      */
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        require(_exists(tokenId), 'PunkToken: URI query for nonexistent token');
-        return descriptor.tokenURI(tokenId, _decodeSeedHash(seeds[tokenId]));
+    function tokenURI(uint256 tokenId) external view override returns (string memory) {
+        require(tokenId >= _idShift, 'PunkToken: URI query for nonexistent token');
+        uint256 unshiftedTokenId = tokenId - _idShift;
+        require(_exists(unshiftedTokenId), 'PunkToken: URI query for nonexistent token');
+        return descriptor.tokenURI(tokenId, _decodeSeedHash(_seeds[unshiftedTokenId]));
     }
 
     /**
      * @notice Similar to `tokenURI`, but always serves a base64 encoded data URI
      * with the JSON contents directly inlined.
      */
-    function dataURI(uint256 tokenId) public view override returns (string memory) {
-        require(_exists(tokenId), 'PunkToken: URI query for nonexistent token');
-        return descriptor.dataURI(tokenId, _decodeSeedHash(seeds[tokenId]));
+    function dataURI(uint256 tokenId) external view override returns (string memory) {
+        require(tokenId >= _idShift, 'PunkToken: URI query for nonexistent token');
+        uint256 unshiftedTokenId = tokenId - _idShift;
+        require(_exists(unshiftedTokenId), 'PunkToken: URI query for nonexistent token');
+        return descriptor.dataURI(tokenId, _decodeSeedHash(_seeds[unshiftedTokenId]));
     }
 
     /**
@@ -307,13 +328,29 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     }
 
     /**
-     * @notice Lock the seeder.
+     * @notice Lock metadata.
      * @dev This cannot be reversed and is only callable by the owner when not locked.
      */
     function lockMetadata() external override onlyOwner whenMetadataNotLocked {
         isMetadataLocked = true;
 
         emit MetadataLocked();
+    }
+
+    function setIdShift(uint256 newIdShift) external override onlyOwner whenIdShiftNotLocked {
+        _idShift = newIdShift;
+
+        emit IdShiftUpdated(newIdShift);
+    }
+
+    /**
+     * @notice Lock Id Shifting.
+     * @dev This cannot be reversed and is only callable by the owner when not locked.
+     */
+    function lockIdShift() external override onlyOwner whenIdShiftNotLocked {
+        isIdShitLocked = true;
+
+        emit IdShiftLocked();
     }
 
     /**
@@ -356,23 +393,24 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
      * @notice Mint a Punk with `punkId` to the provided `to` address.
      */
     function _mintTo(address to, uint256 punkId) internal returns (uint256) {
+        uint256 shiftedPunkId = punkId + _idShift;
         // with sorted accessories
-        ISeeder.Seed memory seed = seeder.generateSeed(punkId, 0); // salt 0
+        ISeeder.Seed memory seed = seeder.generateSeed(shiftedPunkId, 0); // salt 0
         bytes32 seedHash = calculateSeedHash(seed);
 
         uint256 salt = 1;
         // there is little chance to enter the loop, the probability to make a few steps is almost astronomical
         // so the risk of high gas usage is accepted here
         while (seedHashes[seedHash] != 0) {
-            seed = seeder.generateSeed(punkId, salt ++);
+            seed = seeder.generateSeed(shiftedPunkId, salt ++);
             seedHash = calculateSeedHash(seed);
         }
 
-        seedHashes[seedHash] = punkId + 1; // handles tokenId == 0 case
-        seeds[punkId] = seedHash;
+        seedHashes[seedHash] = punkId + 2; // handles tokenId == 0 case and value 1 is for OG punks
+        _seeds[punkId] = seedHash;
 
         _mint(owner(), to, punkId);
-        emit PunkCreated(punkId, seed);
+        emit PunkCreated(shiftedPunkId, seed);
 
         return punkId;
     }
@@ -384,6 +422,6 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     }
 
     function getPunk(uint punkId) external view returns (ISeeder.Seed memory) {
-        return _decodeSeedHash(seeds[punkId]);
+        return _decodeSeedHash(_seeds[punkId - _idShift]);
     }
 }
