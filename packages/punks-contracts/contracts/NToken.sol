@@ -67,7 +67,7 @@ contract NToken is IToken, Ownable, ERC721Checkpointable {
     uint256 private _currentPunkId = 0;
 
     // IPFS content hash of contract-level metadata
-    string private _contractURIHash = 'QmR7EEuVjtSENkJe54rsdpbBcnUMTnQQQ1fTrrYPEB3NYV';
+    string private _contractURIHash = 'QmcSdjhRjLCMyGCp3oXLgv95e1odo8dKHyMZYF8xY1g8n8';
 
     // Token name, a parent contract already declares _name
     string private __name;

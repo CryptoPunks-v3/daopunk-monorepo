@@ -228,7 +228,7 @@ describe('NToken', () => {
   describe('contractURI', async () => {
     it('should return correct contractURI', async () => {
       expect(await nToken.contractURI()).to.eq(
-        'ipfs://QmR7EEuVjtSENkJe54rsdpbBcnUMTnQQQ1fTrrYPEB3NYV',
+        'ipfs://QmcSdjhRjLCMyGCp3oXLgv95e1odo8dKHyMZYF8xY1g8n8',
       );
     });
     it('should allow owner to set contractURI', async () => {
