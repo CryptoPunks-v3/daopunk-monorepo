@@ -3,8 +3,10 @@ import { task, types } from 'hardhat/config';
 import { printContractsTable } from './utils';
 import probDoc from '../../punks-assets/src/config/probability.json'
 
-const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
-const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('deploy-and-configure', 'Deploy and configure all contracts')
   .addFlag('startAuction', 'Start the first auction upon deployment completion')
@@ -82,7 +84,7 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     }
     const executorAddress = contracts.NDAOExecutor.address;
     await (await contracts.NDescriptorV2.instance.transferOwnership(args.punkers, options)).wait();
-    await (await contracts.NToken.instance.transferOwnership(args.punkers, options)).wait();
+//     await (await contracts.NToken.instance.transferOwnership(args.punkers, options)).wait();
     await (await contracts.NSeeder.instance.transferOwnership(args.punkers, options)).wait();
     await (await contracts.NAuctionHouseProxyAdmin.instance.transferOwnership(args.punkers, options)).wait();
     console.log(

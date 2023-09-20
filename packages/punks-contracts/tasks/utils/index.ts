@@ -50,7 +50,7 @@ export interface Seed {
   accessories: Array<Acc>;
 }
 
-// this function must be the same as test/nouns.test.ts/calculateSeedHash()
+// this function must be the same as test/token.test.ts/calculateSeedHash()
 // the above function is tested against contract logic
 // if changed please update here
 export function calculateSeedHash(seed: Seed) {

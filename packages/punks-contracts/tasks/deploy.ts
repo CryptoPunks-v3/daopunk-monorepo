@@ -18,6 +18,7 @@ const wethContracts: Record<number, string> = {
   [ChainId.Sepolia]: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
 };
 const cryptopunksVoteContracts: Record<number, string> = {
+  [ChainId.Mainnet]: '0x28b50f3e79b4921146ee7dfD18FB3Ea61294617b',
   [ChainId.Goerli]: '0x5CC68fCb6B18eb05d7008330191494e9ecAd948F',
   [ChainId.Sepolia]: '0x225EB996209af94F45Bd71c35fDB032feF96b8e4',
 };
@@ -27,8 +28,10 @@ const N_ART_NONCE_OFFSET = 4;
 const AUCTION_HOUSE_PROXY_NONCE_OFFSET = 9;
 const GOVERNOR_N_DELEGATOR_NONCE_OFFSET = 12;
 
-const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
-const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
   .addFlag('autoDeploy', 'Deploy all contracts without user interaction')

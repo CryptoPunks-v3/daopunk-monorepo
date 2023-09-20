@@ -9,8 +9,10 @@ const shortPunkType: any = {
     zombie: "z",
 }
 
-const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
-const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task("populate-seeder", "Initialize deployed smart contracts")
     // .addOptionalParam('nToken', 'The NToken contract address')

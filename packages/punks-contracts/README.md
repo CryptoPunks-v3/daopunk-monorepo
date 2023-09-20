@@ -24,6 +24,7 @@ One Punk is generated and auctioned every day, forever. All Punk artwork is stor
 
 | Contract              | Chain   | Address                                    |
 |-----------------------|---------|--------------------------------------------|
+| CryptopunksVote       | Mainnet | 0x28b50f3e79b4921146ee7dfD18FB3Ea61294617b |
 | CryptopunksVote       | Goerli  | 0x5CC68fCb6B18eb05d7008330191494e9ecAd948F |
 | CryptopunksVote       | Goerli  | 0x4C92061D1Ab6768F8267E7BC10c516CBA4c85b99 |
 | WrappedPunk (mock)    | Goerli  | 0xDE513f5783C86D71501b4fC6cCD16e0Ecd6D3230 |
@@ -104,4 +105,7 @@ yarn hardhat generate-metadata --network localhost
 ```shell
 yarn hardhat deploy-and-configure --network goerli --start-auction --auto-deploy --auction-duration 1200
 yarn hardhat deploy-and-configure --network goerli --start-auction --auto-deploy --proposal-threshold-bps 1 --quorum-votes-bps 200
+yarn hardhat deploy-and-configure --network mainnet --auto-deploy --proposal-threshold-bps 1 --quorum-votes-bps 200 --punkers '0xcfbF2E7005d4f204392929c993281Ec99E61c5a7'
+yarn hardhat register-og-punks --network goerli --n-token-address '0x0Fa9939b3C4D73AdC288b19750Fb9f68130A21a0'
+yarn hardhat register-og-punks --network mainnet --n-token-address '0x83797D8608aA53dFcC77D350081383dF021ee5Bc'
 ```

@@ -3,8 +3,10 @@ import { task, types } from 'hardhat/config';
 import { printContractsTable } from './utils';
 import probDoc from '../../punks-assets/src/config/probability.json'
 
-const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
-const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('start-auction', 'Start the auction')
   .addParam('auctionHouseAddress', 'The target auction house contract address')

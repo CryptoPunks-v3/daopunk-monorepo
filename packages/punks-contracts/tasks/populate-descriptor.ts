@@ -3,8 +3,10 @@ import { task, types } from 'hardhat/config';
 import ImageData from '../files/image-data-v2.json';
 import { dataToDescriptorInput } from './utils';
 
-const MAX_FEE_PER_GAS = ethers.utils.parseUnits('0.00000008', 'gwei');
-const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei');
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('populate-descriptor', 'Populates the descriptor with color palettes and Punk parts')
   .addOptionalParam(
