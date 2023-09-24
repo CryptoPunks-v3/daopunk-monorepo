@@ -75,7 +75,7 @@ const app: Record<ExtendedSupportedChains, AppConfig> = {
   [ChainId.Mainnet]: {
     jsonRpcUri: createNetworkHttpUrl('mainnet'),
     wsRpcUri: createNetworkWsUrl('mainnet'),
-    subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/punks-subgraph',
+    subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/lukasz-glen/daopunks-1',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true',
   },
   [ChainId.Hardhat]: {
