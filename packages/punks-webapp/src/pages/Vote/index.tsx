@@ -48,7 +48,7 @@ const VotePage = ({
   const proposal = useProposal(id);
 
   const [showVoteModal, setShowVoteModal] = useState<boolean>(false);
-  // Toggle between Punk centric view and delegate view
+  // Toggle between DAOpunk centric view and delegate view
   const [isDelegateView, setIsDelegateView] = useState(false);
 
   const [isQueuePending, setQueuePending] = useState<boolean>(false);
@@ -302,7 +302,7 @@ const VotePage = ({
           className={classes.toggleDelegateVoteView}
         >
           {isDelegateView ? (
-            <Trans>Switch to Punk view</Trans>
+            <Trans>Switch to DAOpunk view</Trans>
           ) : (
             <Trans>Switch to delegate view</Trans>
           )}

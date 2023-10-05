@@ -121,8 +121,8 @@ describe('NDescriptor', () => {
           'ascii',
         ),
       );
-      expect(name).to.equal(`Noun ${i}`);
-      expect(description).to.equal(`Noun ${i} is a member of the Nouns DAO`);
+      expect(name).to.equal(`DAO Punk ${i}`);
+      expect(description).to.equal(`DAO Punk ${i} is a member of the Punkers DAO`);
       expect(image).to.not.be.undefined;
 
       appendFileSync(

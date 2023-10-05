@@ -162,7 +162,7 @@
 }
 
 .emergencySettleButton {
-  color: var(--brand-pink);
+  color: var(--brand-color);
   background-color: transparent;
   border: none;
   cursor: pointer;

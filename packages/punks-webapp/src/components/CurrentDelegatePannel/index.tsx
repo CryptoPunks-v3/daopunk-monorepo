@@ -30,9 +30,9 @@ const CurrentDelegatePannel: React.FC<CurrentDelegatePannelProps> = props => {
 
           <p className={classes.copy}>
             <Trans>
-              Punk votes are not transferable, but are{' '}
+              DAOpunk votes are not transferable, but are{' '}
               <span className={classes.emph}>delegatable</span>, which means you can assign your
-              vote to someone else as long as you own your Punk.
+              vote to someone else as long as you own your DAOpunk.
             </Trans>
           </p>
         </div>

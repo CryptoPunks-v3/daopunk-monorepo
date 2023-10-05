@@ -24,6 +24,7 @@
 //
 // MODIFICATIONS:
 // Consumes modified `ERC721` contract. See notes in `ERC721.sol`.
+// _idShift - possible shift for token Ids.
 
 pragma solidity ^0.8.0;
 
@@ -58,9 +59,9 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
     /**
      * @dev See {IERC721Enumerable-tokenOfOwnerByIndex}.
      */
-    function tokenOfOwnerByIndex(address owner, uint256 index) public view virtual override returns (uint256) {
+    function tokenOfOwnerByIndex(address owner, uint256 index) external view override returns (uint256) {
         require(index < ERC721.balanceOf(owner), 'ERC721Enumerable: owner index out of bounds');
-        return _ownedTokens[owner][index];
+        return _ownedTokens[owner][index] + _idShift;
     }
 
     /**
@@ -75,7 +76,7 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
      */
     function tokenByIndex(uint256 index) public view virtual override returns (uint256) {
         require(index < ERC721Enumerable.totalSupply(), 'ERC721Enumerable: global index out of bounds');
-        return _allTokens[index];
+        return _allTokens[index] + _idShift;
     }
 
     /**

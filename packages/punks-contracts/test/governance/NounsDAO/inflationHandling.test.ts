@@ -102,7 +102,7 @@ describe('NDAO#inflationHandling', () => {
 
   it('rejects if proposing below threshold', async () => {
     // account0 has 1 token, requires 681
-    await token.transferFrom(deployer.address, account0.address, 10_000);
+    await token.transferFrom(deployer.address, account0.address, 0);
     await mineBlock();
     await expect(
       gov.connect(account0).propose(targets, values, signatures, callDatas, 'do nothing'),
@@ -111,8 +111,8 @@ describe('NDAO#inflationHandling', () => {
 
   it('allows proposing if above threshold', async () => {
     // account0 has already 1 token, requires 681
-    await token.transferFrom(deployer.address, account0.address, 10_001);
-    await token.transferFrom(deployer.address, account0.address, 10_002);
+    await token.transferFrom(deployer.address, account0.address, 1);
+    await token.transferFrom(deployer.address, account0.address, 2);
     // we need at least 678 + 3 votes to pass a proposal
     await cryptopunks.mintBatch(account0.address, 678);
     const tokenIds0 = [];
@@ -122,9 +122,9 @@ describe('NDAO#inflationHandling', () => {
     await cryptopunksVote.connect(account0).delegateBatch(account0.address, tokenIds0);
 
     // account1 has 681 tokens
-    await token.transferFrom(deployer.address, account1.address, 10_003);
-    await token.transferFrom(deployer.address, account1.address, 10_004);
-    await token.transferFrom(deployer.address, account1.address, 10_005);
+    await token.transferFrom(deployer.address, account1.address, 3);
+    await token.transferFrom(deployer.address, account1.address, 4);
+    await token.transferFrom(deployer.address, account1.address, 5);
     // we need at least 678 + 3 votes to pass a proposal
     await cryptopunks.mintBatch(account1.address, 678);
     const tokenIds1 = [];
@@ -134,11 +134,11 @@ describe('NDAO#inflationHandling', () => {
     await cryptopunksVote.connect(account1).delegateBatch(account1.address, tokenIds1);
 
     // account2 has 5 tokens
-    await token.transferFrom(deployer.address, account2.address, 10_006);
-    await token.transferFrom(deployer.address, account2.address, 10_007);
-    await token.transferFrom(deployer.address, account2.address, 10_008);
-    await token.transferFrom(deployer.address, account2.address, 10_009);
-    await token.transferFrom(deployer.address, account2.address, 10_010);
+    await token.transferFrom(deployer.address, account2.address, 6);
+    await token.transferFrom(deployer.address, account2.address, 7);
+    await token.transferFrom(deployer.address, account2.address, 8);
+    await token.transferFrom(deployer.address, account2.address, 9);
+    await token.transferFrom(deployer.address, account2.address, 10);
 
     await mineBlock();
     await propose(account0);

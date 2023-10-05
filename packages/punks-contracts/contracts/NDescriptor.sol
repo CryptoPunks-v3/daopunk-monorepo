@@ -43,9 +43,6 @@ contract NDescriptor is IDescriptor, Ownable {
     // Punk Color Palettes (Index => Hex Colors)
     mapping(uint8 => string[]) public override palettes;
 
-    // Noun Backgrounds (Hex Colors)
-//  string[] public override backgrounds;
-
     // Punk Bodies (Custom RLE)
     bytes[] public override punkTypes;
     bytes[] public override hats;
@@ -72,13 +69,6 @@ contract NDescriptor is IDescriptor, Ownable {
         require(!arePartsLocked, 'Parts are locked');
         _;
     }
-
-    /**
-     * @notice Get the number of available Noun `backgrounds`.
-     */
-    // function backgroundCount() external view override returns (uint256) {
-    //     return backgrounds.length;
-    // }
 
     /**
      * @notice Get the number of available Punk `bodies`.
@@ -145,16 +135,6 @@ contract NDescriptor is IDescriptor, Ownable {
             _addColorToPalette(paletteIndex, newColors[i]);
         }
     }
-
-    /**
-     * @notice Batch add Noun backgrounds.
-     * @dev This function can only be called by the owner when not locked.
-     */
-    // function addManyBackgrounds(string[] calldata _backgrounds) external override onlyOwner whenPartsNotLocked {
-    //     for (uint256 i = 0; i < _backgrounds.length; i++) {
-    //         _addBackground(_backgrounds[i]);
-    //     }
-    // }
 
     /**
      * @notice Batch add Punk bodies.
@@ -256,15 +236,7 @@ contract NDescriptor is IDescriptor, Ownable {
     }
 
     /**
-     * @notice Add a Noun background.
-     * @dev This function can only be called by the owner when not locked.
-     */
-    // function addBackground(string calldata _background) external override onlyOwner whenPartsNotLocked {
-    //     _addBackground(_background);
-    // }
-
-    /**
-     * @notice Add a Noun body.
+     * @notice Add a Punk body.
      * @dev This function can only be called by the owner when not locked.
      */
     function addPunkType(bytes calldata _punkType) external override onlyOwner whenPartsNotLocked {
@@ -320,7 +292,7 @@ contract NDescriptor is IDescriptor, Ownable {
     }
 
     /**
-     * @notice Lock all Noun parts.
+     * @notice Lock all Punk parts.
      * @dev This cannot be reversed and can only be called by the owner when not locked.
      */
     function lockParts() external override onlyOwner whenPartsNotLocked {
@@ -410,13 +382,6 @@ contract NDescriptor is IDescriptor, Ownable {
     }
 
     /**
-     * @notice Add a Noun background.
-     */
-    // function _addBackground(string calldata _background) internal {
-    //     backgrounds.push(_background);
-    // }
-
-    /**
      * @notice Add a Punk body.
      */
     function _addPunkType(bytes calldata _punkType) internal {
@@ -472,7 +437,7 @@ contract NDescriptor is IDescriptor, Ownable {
     }
 
     /**
-     * @notice Get all Noun parts for the passed `seed`.
+     * @notice Get all Punk parts for the passed `seed`.
      */
     function _getPartsForSeed(ISeeder.Seed memory seed) internal view returns (bytes[] memory) {
         bytes[] memory parts = new bytes[](seed.accessories.length + 1);

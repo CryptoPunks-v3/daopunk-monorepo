@@ -3,6 +3,7 @@ import classes from './AuctionNavigation.module.css';
 import { useAppSelector } from '../../hooks';
 import { useHistory } from 'react-router';
 import useOnDisplayAuction from '../../wrappers/onDisplayAuction';
+import { grey } from '../../utils/nounBgColors';
 
 const AuctionNavigation: React.FC<{
   isFirstAuction: boolean;
@@ -11,7 +12,7 @@ const AuctionNavigation: React.FC<{
   onNextAuctionClick: () => void;
 }> = props => {
   const { isFirstAuction, isLastAuction, onPrevAuctionClick, onNextAuctionClick } = props;
-  const isCool = useAppSelector(state => state.application.stateBackgroundColor) === '#d5d7e1';
+  const isCool = useAppSelector(state => state.application.stateBackgroundColor) === grey;
   const history = useHistory();
   const onDisplayAuction = useOnDisplayAuction();
   const lastAuctionTokenId = useAppSelector(state => state.onDisplayAuction.lastAuctionTokenId);

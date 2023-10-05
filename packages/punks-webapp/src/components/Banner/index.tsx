@@ -5,25 +5,29 @@ import punk from '../../assets/punk.png';
 import Punk from '../Punk';
 import { Trans } from '@lingui/macro';
 
-const Banner = () => {
+const Banner = ({ subtitle }: { subtitle: boolean }) => {
   return (
     <Section fullWidth={false} className={classes.bannerSection}>
-      <Col lg={6}>
+      <Col lg={7}>
         <div className={classes.wrapper}>
-          <h1>
-            <Trans>ONE PUNK,</Trans>
-            <br />
-            <Trans>EVERY DAY,</Trans>
-            <br />
-            <Trans>FOREVER.</Trans>
-          </h1>
+          {subtitle ? (
+            <h2>DAOpunks?</h2>
+          ) : (
+            <h1>
+              <Trans>ONE DAOPUNK,</Trans>
+              <br />
+              <Trans>EVERY DAY,</Trans>
+              <br />
+              <Trans>FOREVER.</Trans>
+            </h1>
+          )}
         </div>
       </Col>
-      <Col lg={6}>
-        <div style={{ padding: '2rem' }}>
-          <Punk imgPath={punk} alt="punk" />
-        </div>
-      </Col>
+      {!subtitle && (
+        <Col className="d-none d-lg-block" lg={5}>
+          <Punk imgPath={punk} alt="DAOpunk" />{' '}
+        </Col>
+      )}
     </Section>
   );
 };

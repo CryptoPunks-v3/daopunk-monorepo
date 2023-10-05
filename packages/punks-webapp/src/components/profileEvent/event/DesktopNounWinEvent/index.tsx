@@ -30,37 +30,22 @@ const DesktopNounWinEvent: React.FC<DesktopNounWinEventProps> = props => {
             id={'view-on-etherscan-tooltip'}
             effect={'solid'}
             className={classes.delegateHover}
-            getContent={dataTip => {
-              return <Trans>View on Etherscan</Trans>;
-            }}
+            getContent={() => <Trans>View on Etherscan</Trans>}
           />
-          {isNounderNoun ? (
-            <Trans>
-              <span className={classes.bold}> Noun {event.tokenId} </span> sent to{' '}
+          {
+            <div>
+              <span className={classes.bold}>DAOpunk {event.tokenId}</span>
+              {isNounderNoun ? ' sent to ' : ' won by '}
               <span
                 data-tip={`View on Etherscan`}
                 onClick={() => window.open(buildEtherscanAddressLink(event.winner), '_blank')}
                 data-for="view-on-etherscan-tooltip"
                 className={classes.address}
               >
-                {' '}
                 <ShortAddress address={event.winner} />
-              </span>{' '}
-            </Trans>
-          ) : (
-            <Trans>
-              <span className={classes.bold}> Noun {event.tokenId} </span> won by{' '}
-              <span
-                data-tip={`View on Etherscan`}
-                onClick={() => window.open(buildEtherscanAddressLink(event.winner), '_blank')}
-                data-for="view-on-etherscan-tooltip"
-                className={classes.address}
-              >
-                {' '}
-                <ShortAddress address={event.winner} />
-              </span>{' '}
-            </Trans>
-          )}
+              </span>
+            </div>
+          }
         </>
       }
       secondaryContent={
@@ -69,9 +54,7 @@ const DesktopNounWinEvent: React.FC<DesktopNounWinEventProps> = props => {
             id={'view-on-etherscan-txn-tooltip'}
             effect={'solid'}
             className={classes.delegateHover}
-            getContent={dataTip => {
-              return <Trans>View on Etherscan</Trans>;
-            }}
+            getContent={() => <Trans>View on Etherscan</Trans>}
           />
           <div
             onClick={() => window.open(buildEtherscanTxLink(event.transactionHash), '_blank')}

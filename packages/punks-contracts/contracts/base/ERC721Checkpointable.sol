@@ -31,6 +31,7 @@
 //   Comp.sol, returns the delegator's own address if there is no delegate.
 //   This avoids the delegator needing to "delegate to self" with an additional transaction
 // - `_transferTokens()` is renamed `_beforeTokenTransfer()` and adapted to hook into OpenZeppelin's ERC721 hooks.
+// _idShift - possible shift for token Ids.
 
 pragma solidity ^0.8.6;
 

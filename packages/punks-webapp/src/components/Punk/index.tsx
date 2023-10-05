@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 export const LoadingPunk = () => {
   return (
     <div className={classes.loaderWrapper}>
-      <Image className={classes.loader} src={alienPunkLoader} alt="loading punk" />
+      <Image className={classes.loader} src={alienPunkLoader} alt="loading DAOpunk" />
     </div>
   );
 };

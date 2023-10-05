@@ -33,7 +33,7 @@ const GovernancePage = () => {
           </h1>
         </Row>
         <p className={classes.subheading}>
-          DAO Punk and CryptoPunk holders govern <span className={classes.boldText}>Punkers DAO</span>. They 
+          DAOpunk and CryptoPunk holders govern <span className={classes.boldText}>Punkers DAO</span>. They
           can vote on proposals or delegate their vote to a third party. A minimum of{' '}
           <span className={classes.boldText}>
             {cryptopunksRequired} {threshold === 0 ? nounSingular : nounPlural}

@@ -1,3 +1,63 @@
+Mainnet 20.09.2023
+
+┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐
+│         (index)         │                   Address                    │                           Deployment Hash                            │
+├─────────────────────────┼──────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│     NFTDescriptorV2     │ '0x65A35941050913D99019972A88147d17BaEAc647' │ '0xa14def5c957c8f34d5f89a6c9d1f05a2d034549c61eb6ad41fcb1f29736c789a' │
+│       SVGRenderer       │ '0x18AB02EF2C3a47B3C92D0AC7e9FEC95990A1B3D0' │ '0xb5b0b4170c01e8dc0894d9a01770ad5bdc9a0f66776d035c472d47cdd531a9d4' │
+│      NDescriptorV2      │ '0x7745A96Ba4E1bb84631Dfc9F183cf5Bdf082388A' │ '0x822ec266e5bbd26792443ea172c8102f1409cff4084233fb6f2c394d04984ae4' │
+│        Inflator         │ '0x5e10371557C9D2E69b6485dF67ce876515CFa2eb' │ '0xb707a863c48f682ba13fb462ad75914010e96df72b4cf538b434a44e5e72b819' │
+│          NArt           │ '0xFdE73dd610afc84b0Af32Dd0924Ca5B719822E86' │ '0x235ce68448adf331ff7b5c697fc28201d690dd735851f574e6f68d0d6740a052' │
+│         NSeeder         │ '0x6F7995977748bC9E7A5786004c45C5D4e7957245' │ '0xb2ee66782cd08cb9eac3beea7c9e7f95f96ed9d547caab1568b13926a4c46618' │
+│         NToken          │ '0x83797D8608aA53dFcC77D350081383dF021ee5Bc' │ '0x92187ff1597c49c243435c94621c4a14f263d1c953ae375cc7cbb973aaea92ab' │
+│      NAuctionHouse      │ '0x78A2a5EB2520796cd5D6694bCD238019b472B3E0' │ '0xf2c0da1377a72f7ad1d197ae2739cb3ff889ab62073a77ca109388c7604aa422' │
+│ NAuctionHouseProxyAdmin │ '0x31257f4A40223DD0e2466D24F03990e142bF5F8c' │ '0xc0c20b54c786b649ee97a06b175b874a9a8f945af0269378c2b03366dd687ce7' │
+│   NAuctionHouseProxy    │ '0x16cC4C29F647Df6B55B53D5D419891c86417d8D8' │ '0xd7f7fc9e53cd120648923a7cc3eb7a5c5c43771cd9c4c9d0e7644f04e357c1dd' │
+│      NDAOExecutor       │ '0x7d75AB6D8d6294AAa56478b0Eaf3ceB655E25cFC' │ '0x56450d452613e4aae92493d31ca088371ecdec2daf21e7be870d893f3710f18a' │
+│       NDAOLogicV1       │ '0x89F444457dAd7F0173aF70F66Ca0877Daf8B212e' │ '0x89d96b836209a2e70f025776feee73b80f0feca1165baa24bce4903a14fb2778' │
+│        NDAOProxy        │ '0xafa624720Ecf98e1afb689183201C85285042685' │ '0x4edb8c032ec7b043a6bdc3eaa697f0000e5180b9ff1d518b64dc3a524c5ffba3' │
+└─────────────────────────┴──────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────┘
+
+Goerli 18.09.2023
+
+┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐
+│         (index)         │                   Address                    │                           Deployment Hash                            │
+├─────────────────────────┼──────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│     NFTDescriptorV2     │ '0x11F3Af7f82Ed18B9b49DaB98B302bBa94ecc91de' │ '0x4e0981e5f753260f9baa3b33bfba174eb190a06ca442590f6264fd9bab69fbae' │
+│       SVGRenderer       │ '0x8d691D42F84c2a42C9CE034e9B8a6Ae4d38f4c54' │ '0xd0ad7f4394ed787dc28633b3f70c4f9d44458bbf1a87201e0d0180bcff11cbe5' │
+│      NDescriptorV2      │ '0xA47624288A28a723b0Ce0f5dED74A2367eea37A3' │ '0x6c2edc3311e983a40db1387e49813c91c6fcddd368428c962df5f3254ed46561' │
+│        Inflator         │ '0xB5601A8f858122993bcac53ea1807c763b2E9567' │ '0x7fe4bb090979c300c438c0b260c8a296a69912d3a32e7ae18a5d5147dbe37467' │
+│          NArt           │ '0x223c9c5E33E6d75756171EEB2DbaF2E3BE43E9C8' │ '0x6abef8d67b32af304a08b6a457d777a8dff20e804718525afbe73821eefb9569' │
+│         NSeeder         │ '0x90c0B00fDe7b475d4b6F4Af58Fb7718CD2Ab295D' │ '0xb038c0873b1701f64cbab66529a93b659287331e38ee68291ff6a00b9003fd70' │
+│         NToken          │ '0x0Fa9939b3C4D73AdC288b19750Fb9f68130A21a0' │ '0x019d5bb1d89c641a8866cc8847999167a943e546f505f5f5d20404088eb3aad9' │
+│      NAuctionHouse      │ '0x18bF635C2B93c9D0871830F60F92753A88e9f4EB' │ '0x27c0839dab529d1deb6b8726d694b205bfd86e0fecb7875be12eb350c4399ef9' │
+│ NAuctionHouseProxyAdmin │ '0x0da5beA47b343DAd5f3f2Cf68162CA8852C57ea5' │ '0xd0579723739af7ccd1349e6df94908373784dd7f55d679771d0d8c11b5be7334' │
+│   NAuctionHouseProxy    │ '0x643AAb353b5f9a9519C847599C1b3928debd48df' │ '0x3aa82b2737664489ba0d4e47b896b5888c9639f65f388402a7a3408ca19f0ae5' │
+│      NDAOExecutor       │ '0x5C8b0E660D7e46D89DD61CBA0f9C6972d72F54A8' │ '0x5ce1ffb03e02d5c110afb0e1ca9b196b42190848a7750ed1daa6e434b39764d8' │
+│       NDAOLogicV1       │ '0xcD1a41AA302C62CdE35d492c58baE77F6b0dfc83' │ '0xfa1f4007e9e625d48521851a37df8c3930d2508a1adc49880d443ce4f6378813' │
+│        NDAOProxy        │ '0x65A005be3B639F58dC02cDE8deC5C0A71f15822F' │ '0xeb3d932ecec0e8d6dfa59c31299c40f9ecfd192e01b6cd69090f1ee2ae322053' │
+└─────────────────────────┴──────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────┘
+
+Goerli 07.09.2023
+
+┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐
+│         (index)         │                   Address                    │                           Deployment Hash                            │
+├─────────────────────────┼──────────────────────────────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│     NFTDescriptorV2     │ '0x1CcBC54eE0BF7694215F52e500fd0d5d0440cBAf' │ '0x7bfc29914b95ff66f341c2aca177bc3999eb116c0a66d094c87a75a66b6b4580' │
+│       SVGRenderer       │ '0x44A6F52125cFfe095A5511A562B013825e78c0c0' │ '0xd65b749fde1d12857bacb39ced4e3dc49f426d6773f4c188b54c419db1213081' │
+│      NDescriptorV2      │ '0xBdE513D85b724C63eFD8ad77c65400A85B7B0B72' │ '0xe5205c2775d39d06b7e7f8d353c06ada45dcea2a56fb95a3300a33e4f4a052ef' │
+│        Inflator         │ '0x1658C5851b3E0a142b55439d52Fa2709Bc785E8C' │ '0x966763ce418beaf7c36da5db6b0b3da4d81c7b00312190b911235ab084668c27' │
+│          NArt           │ '0x4deccF8C5A594C00cd1a9FFbb1AD7d58aDDaf5E6' │ '0xe980af6ee825ebb038c8c9529d98b402a3495bc855b6e00dd13856fb9b492774' │
+│         NSeeder         │ '0x886bDE2A92d733B7F239711237f518D12C438461' │ '0xd349cfbcbbfe7fa78395b4c6ffb807baf632cf3042affa3047fa03fc2a7ac41e' │
+│         NToken          │ '0xa5bfbd19565237C54d22Cf6519a02D56bDC6846a' │ '0xae2fd6188ea325267540c43a2609178029670245404e123c56e7f295549042b0' │
+│      NAuctionHouse      │ '0x42f3Db2f424B49E1c975245DEdd9F3A73a5710a4' │ '0x2316272f79bb84cbcb33e17d63bcd69ba5c2a03097b159a4f0f111515442baf8' │
+│ NAuctionHouseProxyAdmin │ '0x672415CaE142E1365317e038d55dfF27B3209e0C' │ '0xd068d2f982441ce90f64fa1a53b4c4b6851a2b9d4badb718afaaaf1f9123ab49' │
+│   NAuctionHouseProxy    │ '0x69eC75a3648D53595f2a24e1270d9208Ea5850E2' │ '0x388fa627431cd7a7755ef5910f6023a5a3dc2f4e27607188e65e6b8040544b4f' │
+│      NDAOExecutor       │ '0x4051AC93c4D507Bc39330eB8821504d1dD310439' │ '0xa9abcafe8968edaf755d3f89e1cd0b6378bb752e5535671bb782f4b8fdc9d1c2' │
+│       NDAOLogicV1       │ '0x59414A6e7e4C1721154f1d7EdbADA56d702Dc6D9' │ '0xd48406f02e403dee6359a56e1bf90b5b9624c11eb401c3cf6f3f9d541591f0e3' │
+│        NDAOProxy        │ '0xd669A9d550BCc9CE569a3D05CC6C2bed37A46EFE' │ '0x9f326bb799152d4f355bfe0558335aad0592d7b5123114d2ad44bac21f658b03' │
+└─────────────────────────┴──────────────────────────────────────────────┴──────────────────────────────────────────────────────────────────────┘
+
 Goerli 29.06.2023 just to update governance tresholds
 
 ┌─────────────────────────┬──────────────────────────────────────────────┬──────────────────────────────────────────────────────────────────────┐

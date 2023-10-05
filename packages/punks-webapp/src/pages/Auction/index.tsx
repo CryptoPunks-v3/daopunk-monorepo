@@ -27,7 +27,7 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
 
     if (initialAuctionId !== undefined) {
       // handle out of bounds token path ids
-      if (initialAuctionId > lastAuctionTokenId || initialAuctionId < 10000) {
+      if (initialAuctionId > lastAuctionTokenId || initialAuctionId < 0) {
         dispatch(setOnDisplayAuctionTokenId(lastAuctionTokenId));
         dispatch(push(tokenPath(lastAuctionTokenId)));
       } else {
@@ -44,14 +44,14 @@ const AuctionPage: React.FC<AuctionPageProps> = props => {
     }
   }, [lastAuctionTokenId, dispatch, initialAuctionId, onDisplayAuction]);
 
+  const isNotLastPunk =
+    onDisplayAuctionTokenId !== undefined && onDisplayAuctionTokenId !== lastAuctionTokenId;
+
   return (
     <>
       <Auction auction={onDisplayAuction} />
-      {onDisplayAuctionTokenId !== undefined && onDisplayAuctionTokenId !== lastAuctionTokenId ? (
-        <ProfileActivityFeed tokenId={onDisplayAuctionTokenId} />
-      ) : (
-        <Banner />
-      )}
+      {isNotLastPunk && <ProfileActivityFeed tokenId={onDisplayAuctionTokenId} />}
+      <Banner subtitle={isNotLastPunk} />
       <Documentation />
     </>
   );

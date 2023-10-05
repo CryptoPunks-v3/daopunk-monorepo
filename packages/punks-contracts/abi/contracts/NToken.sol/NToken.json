@@ -147,6 +147,25 @@
   {
     "anonymous": false,
     "inputs": [],
+    "name": "IdShiftLocked",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newIdShift",
+        "type": "uint256"
+      }
+    ],
+    "name": "IdShiftUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
     "name": "MetadataLocked",
     "type": "event"
   },
@@ -761,6 +780,19 @@
   },
   {
     "inputs": [],
+    "name": "isIdShitLocked",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "isMetadataLocked",
     "outputs": [
       {
@@ -814,6 +846,13 @@
   {
     "inputs": [],
     "name": "lockDescriptor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lockIdShift",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1056,7 +1095,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "punkId",
         "type": "uint256"
       }
     ],
@@ -1111,6 +1150,19 @@
       }
     ],
     "name": "setDescriptor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newIdShift",
+        "type": "uint256"
+      }
+    ],
+    "name": "setIdShift",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

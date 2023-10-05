@@ -55,17 +55,17 @@ function calculateSeedHash(seed: Seed) {
 }
 
 describe('NToken', () => {
-  let nounsToken: NToken;
+  let nToken: NToken;
   let deployer: SignerWithAddress;
   let punkers: SignerWithAddress;
   let snapshotId: number;
 
   before(async () => {
     [deployer, punkers] = await ethers.getSigners();
-    nounsToken = await deployNToken(deployer, punkers.address, deployer.address);
+    nToken = await deployNToken(deployer, punkers.address, deployer.address);
 
-    const descriptor = await nounsToken.descriptor();
-    const seeder = await nounsToken.seeder();
+    const descriptor = await nToken.descriptor();
+    const seeder = await nToken.seeder();
 
     await populateDescriptorV2(NDescriptorV2Factory.connect(descriptor, deployer));
     await populateSeeder(NSeederFactory.connect(seeder, deployer));
@@ -80,20 +80,20 @@ describe('NToken', () => {
   });
 
   it('should allow the minter to mint a noun to itself and a reward noun to the punkers', async () => {
-    const receipt = await (await nounsToken.mint()).wait();
+    const receipt = await (await nToken.mint()).wait();
 
     const [, , , noundersNounCreated, , , , ownersNounCreated] = receipt.events || [];
 
-    expect(await nounsToken.ownerOf(10_000)).to.eq(punkers.address);
+    expect(await nToken.ownerOf(0)).to.eq(punkers.address);
     expect(noundersNounCreated?.event).to.eq('PunkCreated');
-    expect(noundersNounCreated?.args?.tokenId).to.eq(10_000);
+    expect(noundersNounCreated?.args?.tokenId).to.eq(0);
     expect(noundersNounCreated?.args?.seed.length).to.equal(3);
     expect(noundersNounCreated?.args?.seed.punkType).to.be.a('number');
     expect(noundersNounCreated?.args?.seed.skinTone).to.be.a('number');
 
-    expect(await nounsToken.ownerOf(10_001)).to.eq(deployer.address);
+    expect(await nToken.ownerOf(1)).to.eq(deployer.address);
     expect(ownersNounCreated?.event).to.eq('PunkCreated');
-    expect(ownersNounCreated?.args?.tokenId).to.eq(10_001);
+    expect(ownersNounCreated?.args?.tokenId).to.eq(1);
     expect(ownersNounCreated?.args?.seed.length).to.equal(3);
     expect(ownersNounCreated?.args?.seed.punkType).to.be.a('number');
     expect(ownersNounCreated?.args?.seed.skinTone).to.be.a('number');
@@ -110,22 +110,22 @@ describe('NToken', () => {
   });
 
   it('should set symbol', async () => {
-    expect(await nounsToken.symbol()).to.eq('Ͼ');
+    expect(await nToken.symbol()).to.eq('Ͼ');
   });
 
   it('should set name', async () => {
-    expect(await nounsToken.name()).to.eq('PUNKS');
+    expect(await nToken.name()).to.eq('DAOpunks');
   });
 
   it('should allow minter to mint a noun to itself', async () => {
-    await (await nounsToken.mint()).wait();
+    await (await nToken.mint()).wait();
 
-    const receipt = await (await nounsToken.mint()).wait();
+    const receipt = await (await nToken.mint()).wait();
     const nounCreated = receipt.events?.[3];
 
-    expect(await nounsToken.ownerOf(10_002)).to.eq(deployer.address);
+    expect(await nToken.ownerOf(2)).to.eq(deployer.address);
     expect(nounCreated?.event).to.eq('PunkCreated');
-    expect(nounCreated?.args?.tokenId).to.eq(10_002);
+    expect(nounCreated?.args?.tokenId).to.eq(2);
     expect(nounCreated?.args?.seed.length).to.equal(3);
     expect(nounCreated?.args?.seed.punkType).to.be.a('number');
     expect(nounCreated?.args?.seed.skinTone).to.be.a('number');
@@ -139,41 +139,41 @@ describe('NToken', () => {
   it('should emit two transfer logs on mint', async () => {
     const [, , creator, minter] = await ethers.getSigners();
 
-    await (await nounsToken.mint()).wait();
+    await (await nToken.mint()).wait();
 
-    await (await nounsToken.setMinter(minter.address)).wait();
-    await (await nounsToken.transferOwnership(creator.address)).wait();
+    await (await nToken.setMinter(minter.address)).wait();
+    await (await nToken.transferOwnership(creator.address)).wait();
 
-    const tx = nounsToken.connect(minter).mint();
+    const tx = nToken.connect(minter).mint();
 
     await expect(tx)
-      .to.emit(nounsToken, 'Transfer')
-      .withArgs(constants.AddressZero, creator.address, 10_002);
-    await expect(tx).to.emit(nounsToken, 'Transfer').withArgs(creator.address, minter.address, 10_002);
+      .to.emit(nToken, 'Transfer')
+      .withArgs(constants.AddressZero, creator.address, 2);
+    await expect(tx).to.emit(nToken, 'Transfer').withArgs(creator.address, minter.address, 2);
   });
 
   it('should allow minter to burn a noun', async () => {
-    await (await nounsToken.mint()).wait();
+    await (await nToken.mint()).wait();
 
-    const tx = nounsToken.burn(10_001);
-    await expect(tx).to.emit(nounsToken, 'PunkBurned').withArgs(10_001);
+    const tx = nToken.burn(1);
+    await expect(tx).to.emit(nToken, 'PunkBurned').withArgs(1);
   });
 
   it('should not allow minter to burn a noun not owned', async () => {
-    await (await nounsToken.mint()).wait();
-    await (await nounsToken.transferFrom(deployer.address, punkers.address, 10_001)).wait();
+    await (await nToken.mint()).wait();
+    await (await nToken.transferFrom(deployer.address, punkers.address, 1)).wait();
 
-    const tx = nounsToken.burn(10_001);
+    const tx = nToken.burn(1);
     await expect(tx).to.be.revertedWith('PunkToken: burn caller is not owner nor approved');
   });
 
   it('should revert on non-minter mint', async () => {
-    const account0AsNounErc721Account = nounsToken.connect(punkers);
+    const account0AsNounErc721Account = nToken.connect(punkers);
     await expect(account0AsNounErc721Account.mint()).to.be.reverted;
   });
 
   it('generated seeds have sorted accessories', async () => {
-    const seederAddress = await nounsToken.seeder();
+    const seederAddress = await nToken.seeder();
     const seeder = NSeederFactory.connect(seederAddress, deployer);
     for (let i = 0; i < 20 ; i ++) {
       const n = ethers.BigNumber.from(ethers.utils.keccak256(ethers.BigNumber.from(i).toHexString()));
@@ -187,7 +187,7 @@ describe('NToken', () => {
 
   it('calculates correct seed hash (1)', async () => {
     const seed = {punkType: 1, skinTone: 2, accessories: [{accType: 9, accId: 23}, {accType: 10, accId: 5}, {accType: 11, accId: 15}]}
-    const seedHash = await nounsToken.calculateSeedHash(seed);
+    const seedHash = await nToken.calculateSeedHash(seed);
     expect(seedHash).to.be.equal('0x000000000000000000000000000000000000000000000f0b050a170903020101');
     const expectedSeedHash = calculateSeedHash(seed);
     expect(seedHash).to.be.equal(expectedSeedHash);
@@ -195,7 +195,7 @@ describe('NToken', () => {
 
   it('calculates correct seed hash (2)', async () => {
     const seed = {punkType: 0, skinTone: 0, accessories: []}
-    const seedHash = await nounsToken.calculateSeedHash(seed);
+    const seedHash = await nToken.calculateSeedHash(seed);
     expect(seedHash).to.be.equal('0x0000000000000000000000000000000000000000000000000000000000000001');
     const expectedSeedHash = calculateSeedHash(seed);
     expect(seedHash).to.be.equal(expectedSeedHash);
@@ -219,7 +219,7 @@ describe('NToken', () => {
       {accType: 13, accId: 13},
     ];
     const seed = {punkType: 2, skinTone: 6, accessories }
-    const seedHash = await nounsToken.calculateSeedHash(seed);
+    const seedHash = await nToken.calculateSeedHash(seed);
     expect(seedHash).to.be.equal('0x0d0d0c0c0b0b0a0a09091008070706060505040403030202010100000e060201');
     const expectedSeedHash = calculateSeedHash(seed);
     expect(seedHash).to.be.equal(expectedSeedHash);
@@ -227,17 +227,17 @@ describe('NToken', () => {
 
   describe('contractURI', async () => {
     it('should return correct contractURI', async () => {
-      expect(await nounsToken.contractURI()).to.eq(
-        'ipfs://Qmbp5hCaFT8LqeL6TAXGnUzjYL2u9wkKXeUqump3pb4ruz',
+      expect(await nToken.contractURI()).to.eq(
+        'ipfs://QmcSdjhRjLCMyGCp3oXLgv95e1odo8dKHyMZYF8xY1g8n8',
       );
     });
     it('should allow owner to set contractURI', async () => {
-      await nounsToken.setContractURIHash('ABC123');
-      expect(await nounsToken.contractURI()).to.eq('ipfs://ABC123');
+      await nToken.setContractURIHash('ABC123');
+      expect(await nToken.contractURI()).to.eq('ipfs://ABC123');
     });
     it('should not allow non owner to set contractURI', async () => {
       const [, nonOwner] = await ethers.getSigners();
-      await expect(nounsToken.connect(nonOwner).setContractURIHash('BAD')).to.be.revertedWith(
+      await expect(nToken.connect(nonOwner).setContractURIHash('BAD')).to.be.revertedWith(
         'Ownable: caller is not the owner',
       );
     });
@@ -245,65 +245,65 @@ describe('NToken', () => {
 
   describe('metadata', async () => {
     it('should get default name', async () => {
-      expect(await nounsToken.name()).to.eq('PUNKS');
+      expect(await nToken.name()).to.eq('DAOpunks');
     });
     it('should get default symbol', async () => {
-      expect(await nounsToken.symbol()).to.eq('Ͼ');
+      expect(await nToken.symbol()).to.eq('Ͼ');
     });
     it('the owner can change the name', async () => {
-      await nounsToken.setName('PUNKS-2');
-      expect(await nounsToken.name()).to.eq('PUNKS-2');
+      await nToken.setName('PUNKS-2');
+      expect(await nToken.name()).to.eq('PUNKS-2');
     });
     it('the owner can change the symbol', async () => {
-      await nounsToken.setSymbol('Ͼ-2');
-      expect(await nounsToken.symbol()).to.eq('Ͼ-2');
+      await nToken.setSymbol('Ͼ-2');
+      expect(await nToken.symbol()).to.eq('Ͼ-2');
     });
     it('only owner can change the name', async () => {
       const [, nonOwner] = await ethers.getSigners();
-      const tx = nounsToken.connect(nonOwner).setName('PUNKS-2');
+      const tx = nToken.connect(nonOwner).setName('PUNKS-2');
       await expect(tx).to.be.revertedWith('Ownable: caller is not the owner');
     });
     it('only owner can change the symbol', async () => {
       const [, nonOwner] = await ethers.getSigners();
-      const tx = nounsToken.connect(nonOwner).setSymbol('Ͼ-2');
+      const tx = nToken.connect(nonOwner).setSymbol('Ͼ-2');
       await expect(tx).to.be.revertedWith('Ownable: caller is not the owner');
     });
     it('a name change emits the event', async () => {
-      const tx = nounsToken.setName('PUNKS-2');
+      const tx = nToken.setName('PUNKS-2');
       await expect(tx)
-        .to.emit(nounsToken, 'MetadataUpdated')
+        .to.emit(nToken, 'MetadataUpdated')
         .withArgs('PUNKS-2', 'Ͼ');
     });
-    it('a name change emits the event', async () => {
-      const tx = nounsToken.setSymbol('Ͼ-2');
+    it('a symbol change emits the event', async () => {
+      const tx = nToken.setSymbol('Ͼ-2');
       await expect(tx)
-        .to.emit(nounsToken, 'MetadataUpdated')
-        .withArgs('PUNKS', 'Ͼ-2');
+        .to.emit(nToken, 'MetadataUpdated')
+        .withArgs('DAOpunks', 'Ͼ-2');
     });
     it('the owner cannot change the name when locked', async () => {
-      await nounsToken.lockMetadata();
-      const tx = nounsToken.setName('PUNKS-2');
+      await nToken.lockMetadata();
+      const tx = nToken.setName('PUNKS-2');
       await expect(tx).to.be.revertedWith('Metadata is locked');
     });
     it('the owner cannot change the symbol when locked', async () => {
-      await nounsToken.lockMetadata();
-      const tx = nounsToken.setSymbol('Ͼ-2');
+      await nToken.lockMetadata();
+      const tx = nToken.setSymbol('Ͼ-2');
       await expect(tx).to.be.revertedWith('Metadata is locked');
     });
     it('the owner can lock metadata', async () => {
-      expect(await nounsToken.isMetadataLocked()).to.be.eq(false);
-      await nounsToken.lockMetadata();
-      expect(await nounsToken.isMetadataLocked()).to.be.eq(true);
+      expect(await nToken.isMetadataLocked()).to.be.eq(false);
+      await nToken.lockMetadata();
+      expect(await nToken.isMetadataLocked()).to.be.eq(true);
     });
     it('locking metadata emits the event', async () => {
-      const tx = nounsToken.lockMetadata();
+      const tx = nToken.lockMetadata();
       await expect(tx)
-        .to.emit(nounsToken, 'MetadataLocked')
+        .to.emit(nToken, 'MetadataLocked')
         .withArgs();
     });
     it('only owner can lock metadata', async () => {
       const [, nonOwner] = await ethers.getSigners();
-      const tx = nounsToken.connect(nonOwner).lockMetadata();
+      const tx = nToken.connect(nonOwner).lockMetadata();
       await expect(tx).to.be.revertedWith('Ownable: caller is not the owner');
     });
   });

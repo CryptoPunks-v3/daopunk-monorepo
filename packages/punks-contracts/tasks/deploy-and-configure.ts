@@ -1,6 +1,12 @@
+import { ethers } from 'ethers';
 import { task, types } from 'hardhat/config';
 import { printContractsTable } from './utils';
 import probDoc from '../../punks-assets/src/config/probability.json'
+
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('deploy-and-configure', 'Deploy and configure all contracts')
   .addFlag('startAuction', 'Start the first auction upon deployment completion')
@@ -29,9 +35,22 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
   .addOptionalParam('timelockDelay', 'The timelock delay (seconds)')
   .addOptionalParam('votingPeriod', 'The voting period (blocks)')
   .addOptionalParam('votingDelay', 'The voting delay (blocks)')
-  .addOptionalParam('proposalThresholdBps', 'The proposal threshold (basis points)')
-  .addOptionalParam('quorumVotesBps', 'Votes required for quorum (basis points)')
+  .addOptionalParam(
+    'proposalThresholdBps',
+    'The proposal threshold (basis points)',
+    100 /* 1% */,
+    types.int,
+  )
+  .addOptionalParam(
+    'quorumVotesBps',
+    'Votes required for quorum (basis points)',
+    1_000 /* 10% */,
+    types.int,
+  )
   .setAction(async (args, { ethers, run }) => {
+
+    const options = { maxFeePerGas: MAX_FEE_PER_GAS, maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, }
+
     const [deployer] = await ethers.getSigners();
     const initialDeployerBalance = await ethers.provider.getBalance(deployer.address);
 
@@ -53,7 +72,7 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     await run('populate-seeder', { nSeeder: contracts.NSeeder.instance, probDoc });
 
     // Register OG punk hashes to make sure they will not be minted.
-    await run('register-og-punks', { nToken: contracts.NToken.instance });
+    // await run('register-og-punks', { nToken: contracts.NToken.instance });
 
     // Transfer ownership of all contract except for the auction house.
     // We must maintain ownership of the auction house to kick off the first auction.
@@ -64,10 +83,10 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
       args.punkers = deployer.address;
     }
     const executorAddress = contracts.NDAOExecutor.address;
-    await contracts.NDescriptorV2.instance.transferOwnership(args.punkers);
-    await contracts.NToken.instance.transferOwnership(args.punkers);
-    await contracts.NSeeder.instance.transferOwnership(args.punkers);
-    await contracts.NAuctionHouseProxyAdmin.instance.transferOwnership(args.punkers);
+    await (await contracts.NDescriptorV2.instance.transferOwnership(args.punkers, options)).wait();
+//     await (await contracts.NToken.instance.transferOwnership(args.punkers, options)).wait();
+    await (await contracts.NSeeder.instance.transferOwnership(args.punkers, options)).wait();
+    await (await contracts.NAuctionHouseProxyAdmin.instance.transferOwnership(args.punkers, options)).wait();
     console.log(
       'Transferred ownership of the descriptor, token, and proxy admin contracts to the executor.',
     );
@@ -78,10 +97,13 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
       const auctionHouse = contracts.NAuctionHouse.instance.attach(
         contracts.NAuctionHouseProxy.address,
       );
-      await auctionHouse.unpause({
+      const tx = await auctionHouse.unpause({
         gasLimit: 5_000_000,
+        maxFeePerGas: MAX_FEE_PER_GAS,
+        maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
       });
-      await auctionHouse.transferOwnership(args.punkers);
+      await tx.wait();
+      await (await auctionHouse.transferOwnership(args.punkers, options)).wait();
       console.log(
         'Started the first auction and transferred ownership of the auction house to the executor.',
       );

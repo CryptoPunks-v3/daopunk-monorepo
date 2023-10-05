@@ -55,7 +55,7 @@ const ProfileActivityFeed: React.FC<ProfileActivityFeedProps> = props => {
   if (error) {
     return (
       <div>
-        <Trans>Failed to fetch Punk activity history</Trans>
+        <Trans>Failed to fetch DAOpunk activity history</Trans>
       </div>
     );
   }
@@ -70,7 +70,7 @@ const ProfileActivityFeed: React.FC<ProfileActivityFeedProps> = props => {
         </div>
         {data && data.length === 0 ? (
           <div className={classes.nullStateCopy}>
-            <Trans>This Punk has no activity, since it was just created. Check back soon!</Trans>
+            <Trans>This DAOpunk has no activity, since it was just created. Check back soon!</Trans>
           </div>
         ) : (
           <>

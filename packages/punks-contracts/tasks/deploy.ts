@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { default as NAuctionHouseABI } from '../abi/contracts/NAuctionHouse.sol/NAuctionHouse.json';
 import { ChainId, ContractDeployment, ContractName, DeployedContract } from './types';
 import { Interface } from 'ethers/lib/utils';
@@ -17,6 +18,7 @@ const wethContracts: Record<number, string> = {
   [ChainId.Sepolia]: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
 };
 const cryptopunksVoteContracts: Record<number, string> = {
+  [ChainId.Mainnet]: '0x28b50f3e79b4921146ee7dfD18FB3Ea61294617b',
   [ChainId.Goerli]: '0x5CC68fCb6B18eb05d7008330191494e9ecAd948F',
   [ChainId.Sepolia]: '0x225EB996209af94F45Bd71c35fDB032feF96b8e4',
 };
@@ -25,6 +27,11 @@ const cryptopunksVoteContracts: Record<number, string> = {
 const N_ART_NONCE_OFFSET = 4;
 const AUCTION_HOUSE_PROXY_NONCE_OFFSET = 9;
 const GOVERNOR_N_DELEGATOR_NONCE_OFFSET = 12;
+
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
 
 task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
   .addFlag('autoDeploy', 'Deploy all contracts without user interaction')
@@ -52,7 +59,7 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
   .addOptionalParam(
     'auctionDuration',
     'The auction duration (seconds)',
-    10 /* 24 hours */, /* DEBUG */
+    24 * 60 * 60 /* 24 hours */, /* DEBUG */
     types.int,
   )
   .addOptionalParam(
@@ -230,26 +237,26 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
     };
 
     for (const [name, contract] of Object.entries(contracts)) {
-      let gasPrice = await ethers.provider.getGasPrice();
-      console.log("GAS_PRICE", gasPrice)
+      let maxFeePerGas = MAX_FEE_PER_GAS;
+      console.log("maxFeePerGas", maxFeePerGas)
       if (!args.autoDeploy) {
-        const gasInGwei = Math.round(Number(ethers.utils.formatUnits(gasPrice, 'gwei')));
+        const maxFeePerGasInGwei = Math.round(Number(ethers.utils.formatUnits(maxFeePerGas, 'gwei')));
 
         promptjs.start();
 
         const result = await promptjs.get([
           {
             properties: {
-              gasPrice: {
+              maxFeePerGas: {
                 type: 'integer',
                 required: true,
                 description: 'Enter a gas price (gwei)',
-                default: gasInGwei,
+                default: maxFeePerGasInGwei,
               },
             },
           },
         ]);
-        gasPrice = ethers.utils.parseUnits(result.gasPrice.toString(), 'gwei');
+        maxFeePerGas = ethers.utils.parseUnits(result.maxFeePerGas.toString(), 'gwei');
       }
       const factory = await ethers.getContractFactory(name, {
         libraries: contract?.libraries?.(),
@@ -259,11 +266,12 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
         factory.getDeployTransaction(
           ...(contract.args?.map(a => (typeof a === 'function' ? a() : a)) ?? []),
           {
-            gasPrice,
+            maxFeePerGas,
+            maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
           },
         ),
       );
-      const deploymentCost = deploymentGas.mul(gasPrice);
+      const deploymentCost = deploymentGas.mul(maxFeePerGas);
 
       console.log(
         `Estimated cost to deploy ${name}: ${ethers.utils.formatUnits(
@@ -298,9 +306,11 @@ task('deploy', 'Deploys NFTDescriptor, NDescriptor, NSeeder, and NToken')
       const deployedContract = await factory.deploy(
         ...(contract.args?.map(a => (typeof a === 'function' ? a() : a)) ?? []),
         {
-          gasPrice,
+          maxFeePerGas,
+          maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS,
         },
       );
+      console.log(`transaction ${deployedContract.deployTransaction.hash}`)
 
       if (contract.waitForConfirmation) {
         await deployedContract.deployed();

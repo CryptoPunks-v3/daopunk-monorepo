@@ -42,47 +42,47 @@ export interface Delegates {
 }
 
 export const seedsQuery = (first = 1_000) => gql`
-{
-  seeds(first: ${first}) {
-    id
-    punkType
-    skinTone
-    accessory_types
-    accessory_ids
+  {
+    seeds(first: ${first}) {
+      id
+      punkType
+      skinTone
+      accessory_types
+      accessory_ids
+    }
   }
-}
 `;
 
 export const proposalsQuery = (first = 1_000) => gql`
-{
-  proposals(first: ${first}, orderBy: createdBlock, orderDirection: asc) {
-    id
-    description
-    status
-    proposalThreshold
-    quorumVotes
-    forVotes
-    againstVotes
-    abstainVotes
-    createdTransactionHash
-    createdBlock
-    startBlock
-    endBlock
-    executionETA
-    targets
-    values
-    signatures
-    calldatas
-    proposer {
+  {
+    proposals(first: ${first}, orderBy: createdBlock, orderDirection: asc) {
       id
+      description
+      status
+      proposalThreshold
+      quorumVotes
+      forVotes
+      againstVotes
+      abstainVotes
+      createdTransactionHash
+      createdBlock
+      startBlock
+      endBlock
+      executionETA
+      targets
+      values
+      signatures
+      calldatas
+      proposer {
+        id
+      }
     }
   }
-}
 `;
 
 export const auctionQuery = (auctionId: number) => gql`
-{
-	auction(id: ${auctionId}) {
+  {
+	auction(id: "${auctionId}") {
 	  id
 	  amount
 	  settled
@@ -111,12 +111,12 @@ export const auctionQuery = (auctionId: number) => gql`
 		amount
 	  }
 	}
-}
+  }
 `;
 
 export const bidsByAuctionQuery = (auctionId: string) => gql`
- {
-	bids(where:{auction: "${auctionId}"}) {
+  {
+	bids(where: { auction: "${auctionId}"}) {
 	  id
 	  amount
 	  blockNumber
@@ -130,11 +130,11 @@ export const bidsByAuctionQuery = (auctionId: string) => gql`
 	  }
 	}
   }
- `;
+`;
 
-export const nQuery = (id: string) => gql`
- {
-	punk(id:"${id}") {
+export const nQuery = (tokenId: string) => gql`
+  {
+	punk(id: "${tokenId}") {
 	  id
 	  seed {
         punkType
@@ -147,7 +147,7 @@ export const nQuery = (id: string) => gql`
 	  }
 	}
   }
- `;
+`;
 
 export const tokensIndex = () => gql`
   {
@@ -161,8 +161,8 @@ export const tokensIndex = () => gql`
 `;
 
 export const ogpunksByOwner = (address: string) => gql`
- {
-    ogpunks(where:{owner:"${address}"}) {
+  {
+    ogpunks(where: { owner: "${address}" }) {
       id
       delegate {
         id
@@ -171,7 +171,7 @@ export const ogpunksByOwner = (address: string) => gql`
         id
       }
     }
- }
+  }
 `;
 
 export const latestAuctionsQuery = () => gql`
@@ -206,12 +206,8 @@ export const latestAuctionsQuery = () => gql`
 `;
 
 export const latestBidsQuery = (first: number = 10) => gql`
-{
-	bids(
-	  first: ${first},
-	  orderBy:blockTimestamp,
-	  orderDirection: desc
-	) {
+  {
+	bids(first: ${first}, orderBy:blockTimestamp, orderDirection: desc) {
 	  id
 	  bidder {
 		id
@@ -231,52 +227,52 @@ export const latestBidsQuery = (first: number = 10) => gql`
 `;
 
 export const nVotingHistoryQuery = (tokenId: number) => gql`
-{
-	punk(id: ${tokenId}) {
-        id
-        votes {
-          blockNumber
-          proposal {
-              id
-          }
-          support
-          supportDetailed
-          voter {
-              id
-          }
+  {
+	punk(id: "${tokenId}") {
+      id
+      votes {
+        blockNumber
+        proposal {
+          id
         }
+        support
+        supportDetailed
+        voter {
+          id
+        }
+      }
     }
-}
+  }
 `;
 
 export const nTransferHistoryQuery = (tokenId: number) => gql`
-{
-  transferEvents(where: {id: "${tokenId}"}) {
-    id
-    previousHolder {
+  {
+    transferEvents(where: { punk: "${tokenId}" }) {
       id
+      previousHolder {
+        id
+      }
+      newHolder {
+        id
+      }
+      blockNumber
     }
-    newHolder {
-      id
-    }
-    blockNumber
   }
-}
 `;
 
 export const nDelegationHistoryQuery = (tokenId: number) => gql`
-{
-  delegationEvents(where: {id: "${tokenId}"}) {
-    id
-    previousDelegate {
+  {
+    delegationEvents(where: { punk: "${tokenId}" }) {
       id
+      previousDelegate {
+        id
+      }
+      newDelegate {
+        id
+      }
+      blockNumber
     }
-    newDelegate {
-      id
-    }
-    blockNumber
   }
-}
 `;
 
 export const createTimestampAllProposals = () => gql`
@@ -300,25 +296,25 @@ export const proposalVotesQuery = (proposalId: string) => gql`
 `;
 
 export const delegateTokensAtBlockQuery = (delegates: string[], block: number) => gql`
-{
-  delegates(where: { id_in: ${JSON.stringify(delegates)} }, block: { number: ${block} }) {
-    id
-    nRepresented {
+  {
+    delegates(where: { id_in: ${JSON.stringify(delegates)} }, block: { number: ${block} }) {
       id
+      nRepresented {
+        id
+      }
     }
   }
-}
 `;
 
 export const currentlyDelegatedTokens = (delegate: string) => gql`
-{
-  delegates(where: { id: "${delegate}"} ) {
-    id
-    nRepresented {
+  {
+    delegates(where: { id: "${delegate}"} ) {
       id
+      punksRepresented {
+        id
+      }
     }
   }
-}
 `;
 
 export const clientFactory = (uri: string) =>

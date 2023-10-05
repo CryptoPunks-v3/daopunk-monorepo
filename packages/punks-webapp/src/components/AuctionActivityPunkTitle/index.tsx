@@ -6,7 +6,7 @@ const AuctionActivityPunkTitle: React.FC<{ tokenId: BigNumber; isCool?: boolean 
   return (
     <div className={classes.wrapper}>
       <h1 style={{ color: isCool ? 'var(--brand-cool-dark-text)' : 'var(--brand-warm-dark-text)' }}>
-        DAO Punk {tokenId.toString()}
+          DAOpunk {tokenId.toString()}
       </h1>
     </div>
   );

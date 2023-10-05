@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { task, types } from 'hardhat/config'
 
 const shortPunkType: any = {
@@ -7,23 +8,35 @@ const shortPunkType: any = {
     ape: "p",
     zombie: "z",
 }
+
+// const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('0.000000089', 'gwei')
+// const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('0.000000012', 'gwei')
+const MAX_FEE_PER_GAS =          ethers.utils.parseUnits('17', 'gwei')
+const MAX_PRIORITY_FEE_PER_GAS = ethers.utils.parseUnits('1', 'gwei')
+
 task("populate-seeder", "Initialize deployed smart contracts")
     // .addOptionalParam('nToken', 'The NToken contract address')
     // .addOptionalParam('nSeeder', 'The NSeeder contract address')
     // .addOptionalParam('probDoc', 'The Probability config')
     .setAction(async({ nSeeder, probDoc }, { ethers, run, network }) => {
 
+        const options = { maxFeePerGas: MAX_FEE_PER_GAS, maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, }
+
         const typeProbabilities =
         Object.values(probDoc.probabilities)
             .map((probObj: any) => Math.floor(probObj.probability * 1000))
-        const typeResponse = await (await nSeeder.setTypeProbability(typeProbabilities)).wait()
+        const typeTx = await nSeeder.setTypeProbability(typeProbabilities, options)
+        console.log(`typeTx hash ${typeTx.hash}`)
+        const typeResponse = await typeTx.wait()
         console.log("setTypeProbability", typeProbabilities)
                                                           
         for(let [i, type] of Object.keys(probDoc.probabilities).entries()) {
             const skinProbabilities = 
                 probDoc.probabilities[type].skin
                     .map((value: any) => Math.floor(value * 1000))
-            const skinResponse = await (await nSeeder.setSkinProbability(i, skinProbabilities)).wait()
+            const skinTx = await nSeeder.setSkinProbability(i, skinProbabilities, options)
+            console.log(`skinTx hash ${skinTx.hash}`)
+            const skinResponse = await skinTx.wait()
             console.log("setSkinProbability", skinProbabilities)
         }
 
@@ -31,7 +44,9 @@ task("populate-seeder", "Initialize deployed smart contracts")
             const accCountProbabilities =
                 probDoc.probabilities[type].accessory_count_probabbilities
                     .map((value: any) => Math.floor(value * 1000))
-            const accCountResponse = await (await nSeeder.setAccCountProbability(i, accCountProbabilities)).wait()
+            const accCountTx = await nSeeder.setAccCountProbability(i, accCountProbabilities, options)
+            console.log(`accCountTx hash ${accCountTx.hash}`)
+            const accCountResponse = await accCountTx.wait()
             console.log("setAccCountProbability", accCountProbabilities)
         }
 
@@ -83,8 +98,10 @@ task("populate-seeder", "Initialize deployed smart contracts")
                     .map((entry: any) => entry[1])
             )
         )
+        const accIdSetTx = await nSeeder.setAccIdByType(accIdPerType, accWeightPerType, options)
+        console.log(`accIdSetTx hash ${accIdSetTx.hash}`)
+        const accIdSetResponse = await accIdSetTx.wait()
         console.log("accWeightPerType", accWeightPerType);
-        const accIdSetResponse = await (await nSeeder.setAccIdByType(accIdPerType, accWeightPerType)).wait()
 
         const accExclusion = Array()
         for (let i = 0 ; i < accTypeCount ; i ++) {
@@ -103,7 +120,9 @@ task("populate-seeder", "Initialize deployed smart contracts")
                 accExclusion[accTypeIndex] = accExclusion[accTypeIndex] | groupExclusion;
             })
         })
-        const exclusionResponse = await (await nSeeder.setAccExclusion(accExclusion)).wait()
+        const exclusionTx = await nSeeder.setAccExclusion(accExclusion, options)
+        console.log(`exclusionTx hash ${exclusionTx.hash}`)
+        const exclusionResponse = await exclusionTx.wait()
         console.log("setAccExclusion", accExclusion)
 
         // for(let i = 0; i < 100; i ++) {

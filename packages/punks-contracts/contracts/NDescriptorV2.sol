@@ -102,13 +102,6 @@ contract NDescriptorV2 is IDescriptorV2, Ownable {
     }
 
     /**
-     * @notice Get the number of available Noun `backgrounds`.
-     */
-    // function backgroundCount() external view override returns (uint256) {
-    //     return art.backgroundsCount();
-    // }
-
-    /**
      * @notice Get the number of available Punk `bodies`.
      */
     function punkTypeCount() external view override returns (uint256) {
@@ -162,22 +155,6 @@ contract NDescriptorV2 is IDescriptorV2, Ownable {
     function cheeksCount() external view override returns (uint256) {
         return art.getCheeksesTrait().storedImagesCount;
     }
-
-    /**
-     * @notice Batch add Noun backgrounds.
-     * @dev This function can only be called by the owner when not locked.
-     */
-    // function addManyBackgrounds(string[] calldata _backgrounds) external override onlyOwner whenPartsNotLocked {
-    //     art.addManyBackgrounds(_backgrounds);
-    // }
-
-    /**
-     * @notice Add a Noun background.
-     * @dev This function can only be called by the owner when not locked.
-     */
-    // function addBackground(string calldata _background) external override onlyOwner whenPartsNotLocked {
-    //     art.addBackground(_background);
-    // }
 
     /**
      * @notice Update a single color palette. This function can be used to
@@ -585,8 +562,8 @@ contract NDescriptorV2 is IDescriptorV2, Ownable {
      */
     function dataURI(uint256 tokenId, ISeeder.Seed memory seed) public view override returns (string memory) {
         string memory punkId = tokenId.toString();
-        string memory name = string(abi.encodePacked('Punk ', punkId));
-        string memory description = string(abi.encodePacked('Punk ', punkId, ' is a member of the Punks DAO'));
+        string memory name = string(abi.encodePacked('DAOpunk ', punkId));
+        string memory description = string(abi.encodePacked('DAOpunk ', punkId, ' is a member of the Punkers DAO'));
 
         return genericDataURI(name, description, seed);
     }

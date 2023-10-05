@@ -1,10 +1,10 @@
 # punks-monorepo
 
-DAO Punks is a generative avatar art collective run by a group of crypto misfits.
+DAOpunks is a generative avatar art collective run by a group of crypto misfits.
 
 ## Contributing
 
-If you're interested in contributing to DAO Punks repos we're excited to have you. Please discuss any changes in `#developers` in [https://discord.gg/keNWmpdQD7](https://discord.gg/keNWmpdQD7) prior to contributing to reduce duplication of effort and in case there is any prior art that may be useful to you.
+If you're interested in contributing to DAOpunks repos we're excited to have you. Please discuss any changes in `#developers` in [https://discord.gg/keNWmpdQD7](https://discord.gg/keNWmpdQD7) prior to contributing to reduce duplication of effort and in case there is any prior art that may be useful to you.
 
 ## Packages
 
@@ -14,11 +14,11 @@ The [punks api](packages/punks-api) is an HTTP webserver that hosts token metada
 
 ### punks-assets
 
-The [punks assets](packages/punks-assets) package holds the DAO Punks PNG and run-length encoded image data.
+The [punks assets](packages/punks-assets) package holds the DAOpunks PNG and run-length encoded image data.
 
 ### punks-bots
 
-The [punks bots](packages/punks-bots) package contains a bot that monitors for changes in DAO Punks auction state and notifies everyone via Twitter and Discord.
+The [punks bots](packages/punks-bots) package contains a bot that monitors for changes in DAOpunks auction state and notifies everyone via Twitter and Discord.
 
 ### punks-contracts
 
@@ -26,7 +26,7 @@ The [punks contracts](packages/punks-contracts) is the suite of Solidity contrac
 
 ### punks-sdk
 
-The [punks sdk](packages/punks-sdk) exposes the DAO Punks contract addresses, ABIs, and instances as well as image encoding and SVG building utilities.
+The [punks sdk](packages/punks-sdk) exposes the DAOpunks contract addresses, ABIs, and instances as well as image encoding and SVG building utilities.
 
 ### punks-subgraph
 
@@ -34,7 +34,7 @@ In order to make retrieving more complex data from the auction history, [punks s
 
 ### punks-webapp
 
-The [punks webapp](packages/punks-webapp) is the frontend for interacting with DAO Punks auctions as hosted at [punks.auction](https://punks.auction).
+The [punks webapp](packages/punks-webapp) is the frontend for interacting with DAOpunks auctions as hosted at [punks.auction](https://punks.auction).
 
 ## Quickstart
 

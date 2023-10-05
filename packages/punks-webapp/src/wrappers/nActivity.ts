@@ -284,24 +284,26 @@ export const useNounActivity = (tokenId: number): NounProfileEventFetcherRespons
   // and delegation data to be empty which leads to errors
   try {
     // Parse noun birth + win events into a single event
-    const nounTransferFromAuctionHouse = tokenTransferData.sort(
-      (a: TokenProfileEvent, b: TokenProfileEvent) => a.blockNumber - b.blockNumber,
-    )[tokenId % 10 === 0 ? 0 : 1].payload as TransferEvent;
-    const tokenTransferFromAuctionHouseBlockNumber = tokenTransferData.sort(
-      (a: TokenProfileEvent, b: TokenProfileEvent) => a.blockNumber - b.blockNumber,
-    )[tokenId % 10 === 0 ? 0 : 1].blockNumber;
+    if (tokenTransferData && tokenTransferData.length > 0) {
+      const nounTransferFromAuctionHouse = tokenTransferData.sort(
+        (a: TokenProfileEvent, b: TokenProfileEvent) => a.blockNumber - b.blockNumber,
+      )[tokenId % 10 === 0 ? 0 : 1].payload as TransferEvent;
+      const tokenTransferFromAuctionHouseBlockNumber = tokenTransferData.sort(
+        (a: TokenProfileEvent, b: TokenProfileEvent) => a.blockNumber - b.blockNumber,
+      )[tokenId % 10 === 0 ? 0 : 1].blockNumber;
 
-    const tokenWinEvent = {
-      tokenId: tokenId,
-      winner: nounTransferFromAuctionHouse.to,
-      transactionHash: nounTransferFromAuctionHouse.transactionHash,
-    } as TokenWinEvent;
+      const tokenWinEvent = {
+        tokenId: tokenId,
+        winner: nounTransferFromAuctionHouse.to,
+        transactionHash: nounTransferFromAuctionHouse.transactionHash,
+      } as TokenWinEvent;
 
-    postProcessedEvents.push({
-      eventType: TokenEventType.AUCTION_WIN,
-      blockNumber: tokenTransferFromAuctionHouseBlockNumber,
-      payload: tokenWinEvent,
-    } as TokenProfileEvent);
+      postProcessedEvents.push({
+        eventType: TokenEventType.AUCTION_WIN,
+        blockNumber: tokenTransferFromAuctionHouseBlockNumber,
+        payload: tokenWinEvent,
+      } as TokenProfileEvent);
+    }
   } catch (e) {
     console.log(e);
   }

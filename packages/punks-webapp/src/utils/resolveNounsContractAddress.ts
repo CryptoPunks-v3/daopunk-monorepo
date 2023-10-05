@@ -3,11 +3,11 @@ import config from '../config';
 export const resolveNounContractAddress = (address: string) => {
   switch (address.toLowerCase()) {
     case config.addresses.nDAOProxy.toLowerCase():
-      return 'Nouns DAO Proxy';
+      return 'DAOpunks Proxy';
     case config.addresses.nAuctionHouseProxy.toLowerCase():
-      return 'Nouns Auction House Proxy';
+      return 'DAOpunks Auction House Proxy';
     case config.addresses.nDaoExecutor.toLowerCase():
-      return 'Nouns DAO Treasury';
+      return 'DAOpunks Treasury';
     default:
       return undefined;
   }
