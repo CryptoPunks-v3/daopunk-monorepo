@@ -2,7 +2,12 @@ import chai from 'chai';
 import { ethers } from 'hardhat';
 import { BigNumber as EthersBN, constants } from 'ethers';
 import { solidity } from 'ethereum-waffle';
-import { NDescriptorV2__factory as NDescriptorV2Factory, NToken, NSeeder__factory as NSeederFactory } from '../typechain';
+import {
+  NDescriptorV2__factory as NDescriptorV2Factory,
+  NToken,
+  NSeeder__factory as NSeederFactory,
+  NSeederMock__factory as NSeederMockFactory
+} from '../typechain';
 import { deployNToken, populateDescriptorV2, populateSeeder } from './utils';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
 
@@ -223,6 +228,135 @@ describe('NToken', () => {
     expect(seedHash).to.be.equal('0x0d0d0c0c0b0b0a0a09091008070706060505040403030202010100000e060201');
     const expectedSeedHash = calculateSeedHash(seed);
     expect(seedHash).to.be.equal(expectedSeedHash);
+  });
+
+  it('registered hashes cannot be minted', async () => {
+    const seederMockFactory = new NSeederMockFactory(deployer);
+    const seederMock = await seederMockFactory.deploy();
+
+    const seed0 = {punkType: 1, skinTone: 2, accessories: [{accType: 9, accId: 23}, {accType: 10, accId: 5}]};
+    const seedHash0 = calculateSeedHash(seed0);
+    await seederMock.registerSeed(seed0, 0);
+    const seed1 = {punkType: 1, skinTone: 1, accessories: [{accType: 10, accId: 5}, {accType: 11, accId: 15}]};
+    const seedHash1 = calculateSeedHash(seed1);
+    await seederMock.registerSeed(seed1, 1);
+
+    await nToken.registerOGHashes([seedHash0]);
+    await nToken.mint(); // just to move over double tokens
+    await nToken.setSeeder(seederMock.address);
+    await nToken.mint(); // tokenId 2
+
+    const expectedSeedHash2 = await nToken.calculateSeedHash(await nToken.getPunk(2));
+    expect(expectedSeedHash2).to.be.equal(seedHash1);
+  });
+
+  it('cannot mint twice the same token', async () => {
+    const seederMockFactory = new NSeederMockFactory(deployer);
+    const seederMock = await seederMockFactory.deploy();
+
+    const seed0 = {punkType: 1, skinTone: 2, accessories: [{accType: 9, accId: 23}, {accType: 10, accId: 5}]};
+    const seedHash0 = calculateSeedHash(seed0);
+    await seederMock.registerSeed(seed0, 0);
+    const seed1 = {punkType: 1, skinTone: 1, accessories: [{accType: 10, accId: 5}, {accType: 11, accId: 15}]};
+    const seedHash1 = calculateSeedHash(seed1);
+    await seederMock.registerSeed(seed1, 1);
+
+    await nToken.mint(); // just to move over double tokens
+    await nToken.setSeeder(seederMock.address);
+    await nToken.mint(); // tokenId 2
+    await nToken.mint(); // tokenId 3
+
+    const expectedSeedHash2 = await nToken.calculateSeedHash(await nToken.getPunk(2));
+    const expectedSeedHash3 = await nToken.calculateSeedHash(await nToken.getPunk(3));
+    expect(expectedSeedHash2).to.be.equal(seedHash0);
+    expect(expectedSeedHash3).to.be.equal(seedHash1);
+  });
+
+  it('hidden by - samples', async () => {
+    const seederAddress = await nToken.seeder();
+    const seeder = NSeederFactory.connect(seederAddress, deployer);
+
+    let pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(0).toHexString()));
+    let seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(1).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(2); // accType: 7, accId: 1 is hidden
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(2).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(3).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(2);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(4).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(4);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(5).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(6).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(7).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(8).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3); // accType: 7, accId: 1 is hidden
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(9).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3);
+
+    pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(10).toHexString()));
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(4); // accType: 2, accId: 0 is hidden
+  });
+
+  it('hidden by - token 1', async () => {
+    const seederAddress = await nToken.seeder();
+    const seeder = NSeederFactory.connect(seederAddress, deployer);
+
+    const pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(1).toHexString()));
+
+    let seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(2); // accType: 7, accId: 1 is hidden
+
+    await seeder.setHiddenByAcc([ { covers: [], hidden: { accType: 7, accId: 1 } } ]);
+
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(3); // accType: 7, accId: 1 is not hidden
+  });
+
+  it('hidden by - token 10', async () => {
+    const seederAddress = await nToken.seeder();
+    const seeder = NSeederFactory.connect(seederAddress, deployer);
+
+    const pseudorandomNumber = EthersBN.from(ethers.utils.keccak256(EthersBN.from(10).toHexString()));
+
+    let seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(4); // accType: 2, accId: 0 is hidden
+
+    await seeder.setHiddenByAcc([
+      { covers: [], hidden: { accType: 7, accId: 1 } },
+      { covers: [
+        { accType: 6, accId: 4 },
+        { accType: 6, accId: 5 },
+        { accType: 6, accId: 9 },
+        { accType: 6, accId: 11 }
+      ], hidden: { accType: 2, accId: 0 } }
+    ]);
+
+    seed = await seeder.generateSeedFromNumber(pseudorandomNumber);
+    expect(seed.accessories.length).to.be.eq(5); // accType: 2, accId: 0 is not hidden
   });
 
   describe('contractURI', async () => {

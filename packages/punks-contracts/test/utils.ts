@@ -363,20 +363,35 @@ export const populateSeeder = async (nSeeder: NSeeder): Promise<void> => {
     })
   })
   const exclusionResponse = await (await nSeeder.setAccExclusion(accExclusion)).wait()
-//
-//   const exclusives = probDoc.exclusive_groups.reduce((prev: any, group: any, groupIndex: number) => {
-//     group.forEach((item: any) => {
-//       const typeIndex = Object.keys(probDoc.acc_types).indexOf(item)
-//       if(typeIndex < 0) throw new Error(`Unknown type found in exclusive groups - ${item}`)
-//       prev[typeIndex] = groupIndex
-//     })
-//     return prev
-//   }, Array(accTypeCount).fill(-1))
-//   let curExclusive = probDoc.exclusive_groups.length;
-//   for(let i in exclusives)
-//     if(exclusives[i] < 0)
-//       exclusives[i] = curExclusive ++
-//   const exclusiveResponse = await (await nSeeder.setExclusiveAcc(curExclusive, exclusives)).wait()
+
+  interface Accessory {
+    accType: number;
+    accId: number;
+  }
+  interface HiddenByAccPair {
+    covers: Accessory[];
+    hidden: Accessory;
+  }
+
+  const accessories = new Map<string, Accessory>();
+  Object.keys(probDoc.acc_types).forEach( (type, accType) => {
+    Object.entries(probDoc.accessories)
+      .filter((entry) => entry[1].type == type)
+      .forEach((entry, accId) => {
+        accessories.set(entry[0], {accType, accId})
+      })
+  })
+  const hiddenByAcc: HiddenByAccPair[] = []
+  Object.entries(probDoc.accessories).forEach( accEntry => {
+    if (accEntry[1].hiddenBy.length > 0) {
+      hiddenByAcc.push({
+        covers: accEntry[1].hiddenBy.map( (coveringAcc) => accessories.get(coveringAcc)! ),
+        hidden: accessories.get(accEntry[0])!,
+      })
+    }
+  })
+  const hiddenByAccResponse = await (await nSeeder.setHiddenByAcc(hiddenByAcc)).wait()
+//   hiddenByAcc.forEach( (item) => { console.log(item) })
 }
 
 export const deployGovAndToken = async (

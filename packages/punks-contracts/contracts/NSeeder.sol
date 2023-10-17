@@ -42,6 +42,14 @@ contract NSeeder is ISeeder, Ownable {
     // Whether the seeder can be updated
     bool public areProbabilitiesLocked;
 
+    // (accType, accId) => encoded hidden accessories, 0x0000...accType[0]accId[0]0001, 1 is non zero marker
+    mapping(uint16 => mapping(uint16 => uint256)) internal hiddenByAcc;
+
+    struct HiddenByAccPair {
+        Accessory[] covers;
+        Accessory hidden;
+    }
+
     event ProbabilitiesLocked();
 
     modifier whenProbabilitiesNotLocked() {
@@ -150,6 +158,7 @@ contract NSeeder is ISeeder, Ownable {
         }
 
         seed.accessories = _sortAccessories(seed.accessories);
+        seed.accessories = _removeHiddenAccessories(seed.accessories);
         return seed;
     }
 
@@ -174,6 +183,49 @@ contract NSeeder is ISeeder, Ownable {
             }
 
             return sortedAccessories;
+        }
+    }
+
+    function _removeHiddenAccessories(Accessory[] memory accessories) internal view returns (Accessory[] memory) {
+        unchecked {
+            uint256 encodedAccessories = 0;
+            for(uint256 i = 0 ; i < accessories.length ; i++) {
+                encodedAccessories |= ((uint256(accessories[i].accType) << 8) + accessories[i].accId + 1) << (16 * i);
+            }
+            uint256 encodedAccessoriesRef = encodedAccessories;
+            uint256 accessoriesLengthRef = accessories.length;
+            for (uint256 i = 0 ; i < accessories.length ; i ++) {
+                uint256 currHiddenByAcc = hiddenByAcc[accessories[i].accType][accessories[i].accId];
+                while (currHiddenByAcc != 0) {
+                    uint256 encodedAccessories_ = encodedAccessories;
+                    while (encodedAccessories_ != 0) {
+                        // overflow is by purpose
+                        if ((encodedAccessories_ - currHiddenByAcc) & 0xffff == 0) {
+                            // just to break outer loops
+                            encodedAccessories_ = 0;
+                            currHiddenByAcc = 0;
+                            // update data for new accessories array
+                            encodedAccessoriesRef &= type(uint256).max ^ (0xffff << (16 * i));
+                            accessoriesLengthRef --;
+                        } else {
+                            encodedAccessories_ >>= 16;
+                        }
+                    }
+                    currHiddenByAcc >>= 16;
+                }
+            }
+            if (encodedAccessoriesRef == encodedAccessories) {
+                return accessories;
+            }
+            Accessory[] memory accessories_ = new Accessory[](accessoriesLengthRef);
+            uint256 j = 0;
+            for (uint256 i = 0 ; i < accessories.length ; i ++) {
+                if (encodedAccessoriesRef & (0xffff << (16 * i)) != 0) {
+                    accessories_[j] = accessories[i];
+                    j ++;
+                }
+            }
+            return accessories_;
         }
     }
 
@@ -246,6 +298,29 @@ contract NSeeder is ISeeder, Ownable {
             accAggWeightByType.push(accAggWeightByTypeForPunk);
         }
         accTypeCount = count;
+    }
+
+    /**
+     * @notice Sets hiddenByAcc.
+     * @dev Does not clear configuration at the start.
+     * To clear entry, pass an empty covers.
+     * Can be called multiple times.
+     * The covers must have higher accTypes than the corresponding hidden accType.
+     * The covers array is limited to 16 elts.
+     */
+    function setHiddenByAcc(HiddenByAccPair[] calldata hiddenByAccData) external onlyOwner whenProbabilitiesNotLocked {
+        for (uint256 i = 0 ; i < hiddenByAccData.length ; i ++) {
+            uint16 accType = hiddenByAccData[i].hidden.accType;
+            uint16 accId = hiddenByAccData[i].hidden.accId;
+            uint256 encodedCovers = 0;
+            Accessory[] calldata covers = hiddenByAccData[i].covers;
+            require(covers.length < 17, "NSeeder: M");
+            for(uint256 j = 0 ; j < covers.length ; j++) {
+                require(covers[j].accType > accType, "NSeeder: N");
+                encodedCovers |= ((uint256(covers[j].accType) << 8) + covers[j].accId + 1) << (16 * j);
+            }
+            hiddenByAcc[accType][accId] = encodedCovers;
+        }
     }
 
     function _calcProbability(

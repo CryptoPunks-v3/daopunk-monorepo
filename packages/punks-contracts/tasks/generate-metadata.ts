@@ -10,7 +10,7 @@ task('generate-metadata', 'Generates virtual Metadata')
   )
   .setAction(async ({ nToken }, { ethers }) => {
 //     const randomNumber = '972416539812324512364354326547893581';
-    const randomNumber = ethers.BigNumber.from(ethers.utils.keccak256('0x9f'));
+    const randomNumber = ethers.BigNumber.from(ethers.utils.keccak256('0x0a'));
 //     const randomNumber = ethers.BigNumber.from(ethers.utils.randomBytes(32));
     const tokenId = 1;
 
@@ -28,20 +28,24 @@ task('generate-metadata', 'Generates virtual Metadata')
     const seed = await nSeederContract.generateSeedFromNumber(randomNumber);
 //     const seed =
 // 	       {
-// 	             punkType: 3,
-//                  skinTone: 5,
+// 	             punkType: 0,
+//                  skinTone: 3,
 //                  accessories: [
 // 	               {
 // 		            accType: 4,
 //                     accId: 0,
 //                    },
 // 	               {
-// 		            accType: 7,
+// 		            accType: 6,
+//                     accId: 3,
+//                    },
+// 	               {
+// 		            accType: 11,
 //                     accId: 0,
 //                    },
 // 	               {
 // 		            accType: 12,
-//                     accId: 0,
+//                     accId: 4,
 //                    },
 // 		         ],
 //                };

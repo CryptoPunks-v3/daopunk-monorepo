@@ -8,6 +8,8 @@
   "scripts": {
     "clean": "rimraf dist tsconfig.build.tsbuildinfo",
     "build": "tsc -p tsconfig.build.json",
+    "hidden-traits": "ts-node scripts/hidden-traits.ts",
+    "og-hidden-traits": "ts-node scripts/og-hidden-traits.ts",
     "generate-og-punks": "ts-node scripts/generate-og-punks.ts",
     "generate-og-punk": "ts-node scripts/generate-og-punk.ts",
     "prepare": "yarn build",

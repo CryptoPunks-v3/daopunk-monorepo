@@ -69,10 +69,10 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     });
 
     // Populate the on-chain seeder
-    await run('populate-seeder', { nSeeder: contracts.NSeeder.instance, probDoc });
+    await run('populate-seeder', { nSeederAddress: contracts.NSeeder.instance.address, probDoc });
 
     // Register OG punk hashes to make sure they will not be minted.
-    // await run('register-og-punks', { nToken: contracts.NToken.instance });
+    // await run('register-og-punks', { nTokenAddress: contracts.NToken.instance.address });
 
     // Transfer ownership of all contract except for the auction house.
     // We must maintain ownership of the auction house to kick off the first auction.

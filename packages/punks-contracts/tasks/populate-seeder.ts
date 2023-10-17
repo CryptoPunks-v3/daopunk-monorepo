@@ -18,9 +18,14 @@ task("populate-seeder", "Initialize deployed smart contracts")
     // .addOptionalParam('nToken', 'The NToken contract address')
     // .addOptionalParam('nSeeder', 'The NSeeder contract address')
     // .addOptionalParam('probDoc', 'The Probability config')
-    .setAction(async({ nSeeder, probDoc }, { ethers, run, network }) => {
+    .setAction(async({ nSeederAddress, probDoc }, { ethers, run, network }) => {
 
         const options = { maxFeePerGas: MAX_FEE_PER_GAS, maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, }
+
+        const [deployer] = await ethers.getSigners();
+
+        const factory = await ethers.getContractFactory('NSeeder');
+        const nSeeder = factory.attach(nSeederAddress);
 
         const typeProbabilities =
         Object.values(probDoc.probabilities)
@@ -29,9 +34,9 @@ task("populate-seeder", "Initialize deployed smart contracts")
         console.log(`typeTx hash ${typeTx.hash}`)
         const typeResponse = await typeTx.wait()
         console.log("setTypeProbability", typeProbabilities)
-                                                          
+
         for(let [i, type] of Object.keys(probDoc.probabilities).entries()) {
-            const skinProbabilities = 
+            const skinProbabilities =
                 probDoc.probabilities[type].skin
                     .map((value: any) => Math.floor(value * 1000))
             const skinTx = await nSeeder.setSkinProbability(i, skinProbabilities, options)
@@ -53,7 +58,7 @@ task("populate-seeder", "Initialize deployed smart contracts")
         const accTypeCount = Object.keys(probDoc.acc_types).length
 
         const accCountPerType = probDoc.types.map((punkType: string) =>
-            Object.keys(probDoc.acc_types).map(type => 
+            Object.keys(probDoc.acc_types).map(type =>
                 Object.values(probDoc.accessories).filter((item: any) => item.type == type && item.punk.split("").includes(shortPunkType[punkType])).length
             )
         )
@@ -125,10 +130,35 @@ task("populate-seeder", "Initialize deployed smart contracts")
         const exclusionResponse = await exclusionTx.wait()
         console.log("setAccExclusion", accExclusion)
 
-        // for(let i = 0; i < 100; i ++) {
-        //     const seed = await nSeeder.generateSeed(i)
-        //     console.log(seed)
-        //     console.log("---")
-        // }
+        interface Accessory {
+            accType: number;
+            accId: number;
+        }
+        interface HiddenByAccPair {
+            covers: Accessory[];
+            hidden: Accessory;
+        }
+
+        const accessories = new Map<string, Accessory>();
+        Object.keys(probDoc.acc_types).forEach( (type: string, accType: number) => {
+            Object.entries(probDoc.accessories)
+                .filter((entry: any) => entry[1].type == type)
+                .forEach((entry, accId) => {
+                    accessories.set(entry[0], {accType, accId})
+                })
+        })
+        const hiddenByAcc: HiddenByAccPair[] = []
+        Object.entries(probDoc.accessories).forEach( (accEntry: any) => {
+            if (accEntry[1].hiddenBy.length > 0) {
+                hiddenByAcc.push({
+                    covers: accEntry[1].hiddenBy.map( (coveringAcc: string) => accessories.get(coveringAcc)! ),
+                    hidden: accessories.get(accEntry[0])!,
+                })
+            }
+        })
+        const hiddenByAccTx = await nSeeder.setHiddenByAcc(hiddenByAcc, options)
+        console.log(`hiddenByAccTx hash ${hiddenByAccTx.hash}`)
+        const hiddenByAccResponse = await hiddenByAccTx.wait()
+        console.log("setHiddenByAcc", hiddenByAcc)
 
     })

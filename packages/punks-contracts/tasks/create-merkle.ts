@@ -17,7 +17,8 @@ const fileList = [
     '6000-6999.csv',
     '7000-7999.csv',
     '8000-8999.csv',
-    '9000-9999.csv'
+    '9000-9999.csv',
+    'changed.csv'
 ]
 
 
